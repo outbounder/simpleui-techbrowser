@@ -34,8 +34,8 @@
 				tag_input.focus();
 			}
 		});
-
-		tag_input.keypress(function(event){
+		
+		tag_input.keyup(function(event){
 			if (event.which == BACKSPACE) {
 				if (tag_input.val() == "") {
 					// When backspace is pressed, the last tag is deleted.
@@ -103,20 +103,35 @@
 			el  = "<li class=\"tagit-choice\">\n";
 			el += value + "\n";
 			el += "<a class=\"close\">x</a>\n";
-			el += "<input type=\"hidden\" style=\"display:none;\" value=\""+value+"\" name=\"item[tags][]\">\n";
+			// el += "<input type=\"hidden\" style=\"display:none;\" value=\""+value+"\" name=\"item[tags][]\">\n"; (>(
 			el += "</li>\n";
 			var li_search_tags = this.tag_input.parent();
 			$(el).insertBefore (li_search_tags);
 			tag_input.val("");
 		}
 		
-		el.get(0).getValue = function() {
+		function clear() {
+			tag_input.empty();
+		}
+		
+		function getValue() {
 			var value = "";
 			tag_input.parents("ul").children(".tagit-choice").each(function(i){
 				value += " "+$(this).children("input").val();
 			})
+			value += tag_input.val();
 			return value.trim();
 		}
+		
+		function setValue(value) {
+			clear();
+			var parts = value.split(" "); // comma too?
+			for(var p in parts)
+				create_choice(p);
+		}
+		
+		// give it outside (== exports/commonjs)
+		el.get(0).getValue = getValue;
 	};
 
 	String.prototype.trim = function() {

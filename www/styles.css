@@ -10,6 +10,13 @@ body{
 	background:url('img/bg.jpg') repeat-x #718693;
 }
 
+.addDialog {
+	font-size:13px;
+	color:#000;
+	font-family:Arial, Helvetica, sans-serif;
+	background-color:#4C5A65;
+}
+
 #page{
 	/* The main container div */
 	width:620px;
