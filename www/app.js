@@ -1,34 +1,29 @@
-$(document).on("ready", function(){
-	
-	// autocompleter 
-	new Autocompleter('s', {
-		url: 'http://api-techbrowser.appspot.com/suggest/search.jsonp',
-		param: 'q',
+$(document).ready(function(){
+	// autocomplete functionality
+	$("#searchField").tagit({
+		source: "http://api-techbrowser.appspot.com/suggest/search.jsonp",
 		jsonp: true,
-		cache: false
-		});
+		param: 'q'
+	});
+	$("#searchField").bind("onchanged",function(){
+		$("#searchForm").trigger("submit");
+	});
 	
-	$("searchForm").onSubmit(function(){
-		var term = $("s").value();
-		alert(term);
-		Xhr.load("http://api-techbrowser.appspot.com/search.jsonp?q="+term, {
-	        method:  "get",
-	        jsonp: true,
-	        onComplete: function(response) {
-	        	var results = response.json;
-	        	if(results.length){
-					
-					// If results were returned, add them to a pageContainer div,
-					// after which append them to the #resultsDiv:
-					
-					var pageContainer = $('resultsDiv');
-					
-					for(var i=0;i<results.length;i++){
+	// search functionality
+	$("#searchForm").submit(function(){
+		var term = $("#searchField")[0].getValue();
+		$.getJSON("http://api-techbrowser.appspot.com/search.jsonp?q="+term+"&callback=?", function(response) {
+			$("#resultsDiv").fadeOut("fast",function(){
+				$("#resultsDiv").empty();
+	        	if(response.length){
+					var resultsDiv = $('#resultsDiv');
+					for(var i=0;i<response.length;i++){
 						// Creating a new result object and firing its toString method:
-						pageContainer.append(new result(results[i]) + '');
+						resultsDiv.append(new result(response[i]) + '');
 					}
 				}
-	        }
+	        	$("#resultsDiv").fadeIn("fast");
+			});
 	    });
 		
 		return false;
