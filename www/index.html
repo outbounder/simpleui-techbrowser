@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Techbrowser Powered Site Search</title>
-
-<link rel="stylesheet" type="text/css" href="styles.css" />
-
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Techbrowser Powered Site Search</title>
+	
+	<link href="style/reset.css" rel="stylesheet" type="text/css"  />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+	<link href="style/jquery.ui.autocomplete.custom.css" rel="stylesheet" type="text/css"  />
+	<script src="http://www.google.com/jsapi?key=ABQIAAAAAIm5L_FulZ7vCmMVn-U2ohQCyCGOXSfhRhpSRQDfvnbNpmpO_BSsSGAc8IsXRexYZhgI3A4cWLPbAQ" 
+		type="text/javascript"></script>
 </head>
 
 <body>
-
 <div id="page">
-
+	
     <form id="searchForm" method="post">
 		<fieldset>
-        
-           	<input id="s" type="text" autocomplete="off" />
-            
-            <input type="submit" value="Submit" id="submitButton" />
-            
+			<h3 align="right" style="margin-bottom: 15px" >search by entering keywords bellow</h3>
+           	<ul id="searchField"></ul>
         </fieldset>
     </form>
 
@@ -28,10 +27,11 @@
 
 <!-- It would be great if you leave the link back to the tutorial. Thanks! -->
 <p class="credit"><a href="http://tutorialzine.com/2010/09/google-powered-site-search-ajax-jquery/">Design/Layout by Tzine</a></p>
+<p class="credit">Implementation outbounder/EAST</p>
     
-<!--   script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script -->
-<script src="libs/rightjs/right-src.js"></script>
-<script src="libs/rightjs/right-autocompleter-src.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+<script src="libs/jquery/tagit/tag-it.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
