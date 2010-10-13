@@ -1,4 +1,16 @@
 $(document).ready(function(){
+	// add new entry functionality
+	$("#addBtn").click(function(){
+		var addDialog = Component.fromPath("component/add",null,false,true);
+		$(addDialog).dialog({
+			title: "add new entry",
+			modal: true,
+			width: 500,
+			height: 500
+		});
+	});
+	
+	
 	// autocomplete functionality
 	$("#searchField").tagit({
 		source: "http://api-techbrowser.appspot.com/suggest/search.jsonp",

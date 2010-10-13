@@ -280,3 +280,14 @@ a:hover{
 .rui-dd-menu li {
 	color:#000000;
 }
+
+#addBtn {
+	height:64px;
+	width:64px;
+	float: right;
+	margin-left: 10px;
+}
+#addBtn .image {
+	width:100%;
+    height:100%;
+}

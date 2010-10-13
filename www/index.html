@@ -4,6 +4,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Techbrowser Powered Site Search</title>
 	
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
+	
 	<link href="style/reset.css" rel="stylesheet" type="text/css"  />
 	<link rel="stylesheet" type="text/css" href="styles.css" />
 	<link href="style/jquery.ui.autocomplete.custom.css" rel="stylesheet" type="text/css"  />
@@ -14,24 +16,33 @@
 <body>
 <div id="page">
 	
+    
     <form id="searchForm" method="post">
 		<fieldset>
-			<h3 align="right" style="margin-bottom: 15px" >search by entering keywords bellow</h3>
-           	<ul id="searchField"></ul>
+			<h3 align="left" style="margin-bottom: 15px" >search by entering tags bellow</h3>
+			<div id="addBtn" align="center">
+		   		<img src="img/add-icon.png" class="image" alt="" />or add new entry
+		   	</div>
+   			<ul id="searchField"></ul>
         </fieldset>
     </form>
-
+	
     <div id="resultsDiv"></div>
     
 </div>
 
 <!-- It would be great if you leave the link back to the tutorial. Thanks! -->
-<p class="credit"><a href="http://tutorialzine.com/2010/09/google-powered-site-search-ajax-jquery/">Design/Layout by Tzine</a></p>
-<p class="credit">Implementation outbounder/EAST</p>
+<p class="credit">
+	<a href="http://tutorialzine.com/2010/09/google-powered-site-search-ajax-jquery/">Design/Layout by Tzine</a>
+	<a href="http://dryicons.com">Icons by http://dryicons.com</a>
+	<a href="http://east.fi">Implementation outbounder/EAST</a>
+</p>
     
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
 <script src="libs/jquery/tagit/tag-it.js"></script>
+<script src="libs/flashjs/component.js"></script>
+<script src="libs/flashjs/componentCacheAdapter.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

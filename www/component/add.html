@@ -1,0 +1,27 @@
+<div>
+	<form id="addForm" method="post">
+		<fieldset>
+			<div>
+				Name: <input type="text" />
+			</div>
+			<div>
+				Url: <input type="text" />
+			</div>
+			<div>
+				Tags: 
+				<ul id="tagsField"></ul>
+   			</div>
+        </fieldset>
+    </form>
+    <script>
+	 	// autocomplete functionality
+		$("#tagsField",this).tagit({
+			source: "http://api-techbrowser.appspot.com/suggest/tag.jsonp",
+			jsonp: true,
+			param: 'q'
+		});
+		$("#tagsField",this).bind("onchanged",function(){
+			$("#addForm",this).trigger("submit");
+		});
+    </script>
+</div>
