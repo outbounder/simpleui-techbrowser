@@ -20,7 +20,7 @@
 		var html_input_field = "<li class=\"tagit-new\"><input class=\"tagit-input\" type=\"text\" autocomplete='off'/></li>\n";
 		el.html (html_input_field);
 
-		tag_input		= el.children(".tagit-new").children(".tagit-input");
+		var tag_input = el.children(".tagit-new").children(".tagit-input");
 
 		$(this).click(function(e){
 			if (e.target.tagName == 'A') {
@@ -89,7 +89,7 @@
 
 		function is_new (value){
 			var is_new = true;
-			this.tag_input.parents("ul").children(".tagit-choice").each(function(i){
+			tag_input.parents("ul").children(".tagit-choice").each(function(i){
 				n = $(this).children("input").val();
 				if (value == n) {
 					is_new = false;
@@ -105,7 +105,7 @@
 			el += "<a class=\"close\">x</a>\n";
 			// el += "<input type=\"hidden\" style=\"display:none;\" value=\""+value+"\" name=\"item[tags][]\">\n"; (>(
 			el += "</li>\n";
-			var li_search_tags = this.tag_input.parent();
+			var li_search_tags = tag_input.parent();
 			$(el).insertBefore (li_search_tags);
 			tag_input.val("");
 		}
