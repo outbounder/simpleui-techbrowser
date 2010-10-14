@@ -10,6 +10,13 @@ body{
 	background:url('img/bg.jpg') repeat-x #718693;
 }
 
+.addDialog {
+	font-size:13px;
+	color:#fff;
+	font-family:Arial, Helvetica, sans-serif;
+	background-color:#000000;
+}
+
 #page{
 	/* The main container div */
 	width:620px;
@@ -279,4 +286,15 @@ a:hover{
 
 .rui-dd-menu li {
 	color:#000000;
+}
+
+#addBtn {
+	height:64px;
+	width:64px;
+	float: right;
+	margin-left: 10px;
+}
+#addBtn .image {
+	width:100%;
+    height:100%;
 }

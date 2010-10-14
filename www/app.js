@@ -1,4 +1,14 @@
 $(document).ready(function(){
+	
+	// add new entry functionality
+	$("#addBtn").click(function(){
+		var addDialog = Component.fromPath("component/add",null,false,true);
+		SexyLightbox.initialize();
+		SexyLightbox.showDOM(null,addDialog,500,200,true,"#000000");
+		addDialog.dialog = SexyLightbox;
+	});
+	
+	
 	// autocomplete functionality
 	$("#searchField").tagit({
 		source: "http://api-techbrowser.appspot.com/suggest/search.jsonp",

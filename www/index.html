@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Techbrowser Powered Site Search</title>
-	
-	<link href="style/reset.css" rel="stylesheet" type="text/css"  />
-	<link rel="stylesheet" type="text/css" href="styles.css" />
-	<link href="style/jquery.ui.autocomplete.custom.css" rel="stylesheet" type="text/css"  />
-	<script src="http://www.google.com/jsapi?key=ABQIAAAAAIm5L_FulZ7vCmMVn-U2ohQCyCGOXSfhRhpSRQDfvnbNpmpO_BSsSGAc8IsXRexYZhgI3A4cWLPbAQ" 
-		type="text/javascript"></script>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Techbrowser Powered Site Search</title>
+		
+		<!-- reset css -->
+		<link href="style/reset.css" rel="stylesheet" type="text/css"  />
+		<!-- jquery-ui -->
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
+		<!-- tag-it / autocomplete -->
+		<link href="style/jquery.ui.autocomplete.custom.css" rel="stylesheet" type="text/css"  />
+		<!-- SexyLightbox -->
+		<link href="style/sexylightbox.css" rel="stylesheet" type="text/css"  />
+		<!-- loading -->
+		<link href="style/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
+		
+		<!--  techbrowser -->
+		<link rel="stylesheet" type="text/css" href="style/styles.css" />
+		<!--  addDialog -->
+		<link rel="stylesheet" type="text/css" href="style/addDialog.css" />
+	</head>
 
-<body>
-<div id="page">
-	
-    <form id="searchForm" method="post">
-		<fieldset>
-			<h3 align="right" style="margin-bottom: 15px" >search by entering keywords bellow</h3>
-           	<ul id="searchField"></ul>
-        </fieldset>
-    </form>
-
-    <div id="resultsDiv"></div>
-    
-</div>
-
-<!-- It would be great if you leave the link back to the tutorial. Thanks! -->
-<p class="credit"><a href="http://tutorialzine.com/2010/09/google-powered-site-search-ajax-jquery/">Design/Layout by Tzine</a></p>
-<p class="credit">Implementation outbounder/EAST</p>
-    
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
-<script src="libs/jquery/tagit/tag-it.js"></script>
-<script src="app.js"></script>
-</body>
+	<body>
+		<div id="page">
+			
+		    
+		    <form id="searchForm" method="post">
+				<fieldset>
+					<h3 align="left" style="margin-bottom: 15px" >search by entering tags bellow</h3>
+					<div id="addBtn" align="center">
+				   		<img src="img/add-icon.png" class="image" alt="" />or add new entry
+				   	</div>
+		   			<ul id="searchField"></ul>
+		        </fieldset>
+		    </form>
+			
+		    <div id="resultsDiv"></div>
+		    
+		</div>
+		
+		<!-- It would be great if you leave the link back to the tutorial. Thanks! -->
+		<p class="credit">
+			<a href="http://tutorialzine.com/2010/09/google-powered-site-search-ajax-jquery/">Design/Layout by Tzine</a>
+			<a href="http://dryicons.com">Icons by http://dryicons.com</a>
+			<a href="http://east.fi">Implementation outbounder/EAST</a>
+		</p>
+		
+		<!-- code behind :D -->
+		<!-- jquery -->    
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+		<!-- tag-it -->
+		<script src="libs/jquery/tagit/tag-it.js"></script>
+		<!-- Component -->
+		<script src="libs/flashjs/component.js"></script>
+		<script src="libs/flashjs/componentCacheAdapter.js"></script>
+		<!-- easing -->
+		<script type="text/javascript" src="libs/jquery/jquery.easing.1.3.js"></script>
+		<!--  SexyLightbox -->
+		<script type="text/javascript" src="libs/jquery/sexylightbox.v2.3/sexylightbox.v2.3.jquery.js"></script>
+		<!-- loading -->
+		<script type="text/javascript" src="libs/jquery/loading.16.4/jquery.loading.1.6.4.js"></script>
+		
+		
+		<!-- techbrowser  -->
+		<script src="app.js"></script>
+	</body>
 </html>

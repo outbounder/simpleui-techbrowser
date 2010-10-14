@@ -1,0 +1,49 @@
+<div>
+	<div class="addDialog">
+		<div>
+			<input type="text" name="name" class="nameField clearableInputField" value="name"/>
+		</div>
+		<div>
+			<input type="text" name="url" class="urlField clearableInputField" value="url" />
+		</div>
+		<div>
+			<ul id="tagsField" name="tags"></ul>
+  		</div>
+		<div align="center">
+			<input  type="submit" class="submitButton" value="add" />
+		</div>
+	    <script>
+	     // <![CDATA[
+	                 
+	        $(".clearableInputField", this).click(function(){
+	        	$(this).val("");
+	        });
+	        
+	    	// auto-tags functionality
+	    	var _self = this;
+			$(".urlField",this).change(function(){
+				var term = $(".urlField",_self).val();
+				$.loading();
+	    		$.getJSON("http://api-techbrowser.appspot.com/suggest/tags.jsonp?url="+term+"&callback=?", 
+	    					function(response) {
+    	        				$("#tagsField", _self)[0].setValue(response.join(" "));
+    	        				$.loading(false);
+	    	    		});
+	    	}); 	    
+		 	// autocomplete functionality
+			$("#tagsField",this).tagit({
+				source: "http://api-techbrowser.appspot.com/suggest/tag.jsonp",
+				jsonp: true,
+				param: 'q'
+			});
+			$("#tagsField",this).bind("onchanged",function(){
+				$("#addForm",this).trigger("submit");
+			});
+			
+			$(".submitButton", this).click(function(){
+				SexyLightbox.close();
+			});
+		// ]]>
+	    </script>
+	</div>
+</div>
