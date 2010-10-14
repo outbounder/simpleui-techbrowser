@@ -22,6 +22,10 @@
 	background: white url("../img/ui-anim_basic_16x16.gif") right bottom no-repeat;
 }
 
+ul.tagit li div.tagit-choice-value {
+	float: left;
+}
+
 ul.tagit {
 	padding:1px 5px;
 	border-style:solid;

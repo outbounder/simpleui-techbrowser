@@ -16,15 +16,11 @@ $(document).ready(function(){
 		param: 'q'
 	});
 	$("#searchField").bind("onchanged",function(){
-		$("#searchForm").trigger("submit");
-	});
-	
-	// search functionality
-	$("#searchForm").submit(function(){
 		var term = $("#searchField")[0].getValue();
 		$.getJSON("http://api-techbrowser.appspot.com/search.jsonp?q="+term+"&callback=?", function(response) {
 			$("#resultsDiv").fadeOut("fast",function(){
 				$("#resultsDiv").empty();
+				console.log(response);
 	        	if(response.length){
 					var resultsDiv = $('#resultsDiv');
 					for(var i=0;i<response.length;i++){
@@ -35,9 +31,8 @@ $(document).ready(function(){
 	        	$("#resultsDiv").fadeIn("fast");
 			});
 	    });
-		
-		return false;
 	});
+	
 	
 	function result(r){
 		
