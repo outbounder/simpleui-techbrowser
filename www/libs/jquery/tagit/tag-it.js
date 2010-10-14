@@ -127,11 +127,12 @@
 			clear();
 			var parts = value.split(" "); // comma too?
 			for(var p in parts)
-				create_choice(p);
+				create_choice(parts[p]);
 		}
 		
 		// give it outside (== exports/commonjs)
 		el.get(0).getValue = getValue;
+		el.get(0).setValue = setValue;
 	};
 
 	String.prototype.trim = function() {

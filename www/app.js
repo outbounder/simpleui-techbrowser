@@ -1,15 +1,11 @@
 $(document).ready(function(){
+	
 	// add new entry functionality
 	$("#addBtn").click(function(){
 		var addDialog = Component.fromPath("component/add",null,false,true);
-		/*$(addDialog).dialog({
-			title: "add new entry",
-			modal: true,
-			width: 500,
-			height: 500
-		});*/
 		SexyLightbox.initialize();
-		SexyLightbox.showDOM("Add entry",addDialog,500,500,true,"#4C5A65");
+		SexyLightbox.showDOM(null,addDialog,500,200,true,"#000000");
+		addDialog.dialog = SexyLightbox;
 	});
 	
 	

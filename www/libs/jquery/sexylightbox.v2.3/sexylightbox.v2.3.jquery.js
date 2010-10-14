@@ -457,6 +457,8 @@ jQuery.bind = function(object, method){
     },
     
     showDOM : function(caption,dom,width,height,modal,background) {
+    	this.showLoading();
+    	
         if (this.ResizeBox) this.ResizeBox.unbind('complete'); //fix for jQuery
         
         var params = {
@@ -474,9 +476,10 @@ jQuery.bind = function(object, method){
         this.lightbox.height = params['height']+($.browser.opera?2:0);
         this.replaceBox({'resize' : 1});
         
-        this.ResizeBox.bind('complete', $.bind(this, function(){
+        /* this.ResizeBox.bind('complete', $.bind(this, function(){
 	        this.showContent(dom, this.lightbox);
-	    }));
+	    })); */
+        this.showContent(dom, this.lightbox);
         
         this.next = false;
         this.prev = false;
