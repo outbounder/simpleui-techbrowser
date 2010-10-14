@@ -40,6 +40,7 @@
 				if (tag_input.val() == "") {
 					// When backspace is pressed, the last tag is deleted.
 					$(el).children(".tagit-choice:last").remove();
+					el.trigger("onchanged");
 				}
 			}
 			// Comma/Space/Enter are all valid delimiters for new tags.
@@ -81,6 +82,7 @@
 				
 				// Cleaning the input.
 				tag_input.val("");
+				el.trigger("onchanged");
 
 				// Preventing the tag input to be update with the chosen value.
 				return false;
@@ -101,7 +103,7 @@
 		function create_choice (value){
 			var el = "";
 			el  = "<li class=\"tagit-choice\">\n";
-			el += value + "\n";
+			el += "<div class=\"tagit-choice-value\">"+value + "</div>\n";
 			el += "<a class=\"close\">x</a>\n";
 			// el += "<input type=\"hidden\" style=\"display:none;\" value=\""+value+"\" name=\"item[tags][]\">\n"; (>(
 			el += "</li>\n";
@@ -116,10 +118,10 @@
 		
 		function getValue() {
 			var value = "";
-			tag_input.parents("ul").children(".tagit-choice").each(function(i){
-				value += " "+$(this).children("input").val();
+			var choices = tag_input.parents("ul").children(".tagit-choice");
+			choices.each(function(i){
+				value += " "+$(choices[i]).children(".tagit-choice-value").text();
 			})
-			value += tag_input.val();
 			return value.trim();
 		}
 		
