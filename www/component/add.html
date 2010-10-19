@@ -21,7 +21,7 @@
 			$(".urlField",this).change(function(){
 				var term = $(".urlField",_self).val();
 				$.loading();
-	    		$.getJSON("http://api-techbrowser.appspot.com/suggest/tags.jsonp?url="+term+"&callback=?", 
+	    		$.getJSON(app.endpoint+"suggest/tags.jsonp?url="+term+"&callback=?", 
 	    					function(response) {
     	        				$("#tagsField", _self)[0].setValue(response.join(" "));
     	        				$.loading(false);

@@ -23,14 +23,14 @@
 		
 		// autocomplete functionality
 		$("#searchField", this).tagit({
-			source: "http://api-techbrowser.appspot.com/suggest/search.jsonp",
+			source: app.endpoint+"suggest/search.jsonp",
 			jsonp: true,
 			param: 'q'
 		});
 		
 		$("#searchField", this).bind("onchanged",function(){
 			var term = $("#searchField")[0].getValue();
-			$.getJSON("http://api-techbrowser.appspot.com/search.jsonp?q="+term+"&callback=?", function(response) {
+			$.getJSON(app.endpoint+"search.jsonp?q="+term+"&callback=?", function(response) {
 				$("#resultsDiv").fadeOut("fast",function(){
 					$("#resultsDiv").empty();
 					console.log(response);

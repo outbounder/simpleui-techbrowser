@@ -6,6 +6,7 @@ $(document).ready(function(){
 
 var app = {
 	ownerUID : null,
+	endpoint : "http://localhost:8080/", //http://api-techbrowser.appspot.com/
 	requestLogin : function(onLoginHandler) {
 		var loginDialog = Component.fromPath("component/login");
 		console.log(loginDialog);
