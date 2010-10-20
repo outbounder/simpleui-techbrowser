@@ -2,7 +2,7 @@ var app = {
 	ownerUID : null,
 	ownerFB : null,
 	ownerGoogle : null,
-	endpoint : "http://localhost:8080/", // http://api-techbrowser.appspot.com/
+	endpoint : "http://api-techbrowser.appspot.com/",
 	searchMode : "public",
 	googleAppKey : "18358026133409707365",
 	facebookAppKey: '165991020094008',
