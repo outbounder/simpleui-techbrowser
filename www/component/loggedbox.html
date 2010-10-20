@@ -1,0 +1,14 @@
+<div>
+	<div>
+		<div id="provider">Logged as Anonymous</div>
+		<div><a href="javascript:void(0)" id="changeBtn">change this</a></div>
+	</div>
+	<script>
+		this.setProvider = function(provider) {
+			$("#provider", this).text("Logged via "+provider);		
+		}
+		$("#changeBtn",this).click(function(){
+			app.requestUserLogin();
+		});
+	</script>
+</div>

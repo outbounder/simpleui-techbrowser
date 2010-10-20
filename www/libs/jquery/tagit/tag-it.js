@@ -114,6 +114,7 @@
 		
 		function clear() {
 			tag_input.empty();
+			tag_input.parents("ul").children(".tagit-choice").remove();
 		}
 		
 		function getValue() {

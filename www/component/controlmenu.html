@@ -1,0 +1,28 @@
+<div>
+	<ul class="controlmenu">
+    	<li><a id="public" href="javascript:void(0)">Public</a></li>
+    	<li><a id="own" href="javascript:void(0)">Own</a></li>
+	</ul>
+	
+	<script>
+		var _self = this;
+		this.lastActiveButton = null;
+		app.currentSearchMode = null;
+	
+		this.highlight = function(value) {
+			if(_self.lastActiveButton)
+				_self.lastActiveButton.removeClass("active");
+			
+			_self.lastActiveButton = $("#"+value, _self);
+			
+			if(_self.lastActiveButton)
+				_self.lastActiveButton.addClass("active");
+		};
+	
+		$("a", this).click(function(){
+			var value = this.getAttribute("id");
+			if(_self.emit("highlight", value))
+				_self.highlight(value);
+		});
+	</script>
+</div>

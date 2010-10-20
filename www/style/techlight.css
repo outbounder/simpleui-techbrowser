@@ -1,0 +1,67 @@
+.loginbox .title {
+	margin-bottom: 15px;
+}
+
+.loginbox .loginDesc {
+	margin-top: 15px;
+}
+
+#googlelogin {
+	margin-bottom: 10px;
+}
+
+.controlmenu {
+	margin-left: 15px;
+	margin-bottom: 5px;
+}
+
+.controlmenu li {
+	display: inline;
+}
+
+.controlmenu a, .controlmenu a:visited {
+	border-style: none;
+	text-decoration:none;
+	outline:none;
+	color:#fff;
+	background-color: #718693;
+
+	padding:3px 15px 20px;
+	-moz-border-radius:16px;
+	-webkit-border-radius:16px;
+	border-radius:16px;
+}
+
+.controlmenu a:hover {
+	color:#C0D0D8;
+	background-color: #4C5A65;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000;
+	
+	-moz-border-radius:16px;
+	-webkit-border-radius:16px;
+	border-radius:16px;
+	
+	padding:2px 15px 20px;
+}
+
+.controlmenu .active,.controlmenu a:visited.active {
+	color:#C0D0D8;
+	background-color: #4C5A65;
+	
+	padding:3px 15px 20px;
+	-moz-border-radius:16px;
+	-webkit-border-radius:16px;
+}
+
+#addBtn {
+	height:64px;
+	width:64px;
+	float: right;
+	margin-left: 10px;
+}
+#addBtn .image {
+	width:100%;
+    height:100%;
+}
