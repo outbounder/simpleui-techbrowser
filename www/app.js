@@ -6,6 +6,7 @@ var app = {
 	searchMode : "public",
 	googleAppKey : "18358026133409707365",
 	facebookAppKey: '165991020094008',
+	googleAnalyticsKey: 'UA-11129132-4',
 	
 	requestUserLogin : function() {
 		var loginDialog = Component.fromPath("component/login");
