@@ -37,7 +37,6 @@
 			$.getJSON(app.endpoint+"search.jsonp?q="+term+"&callback=?", function(response) {
 				$("#resultsDiv").fadeOut("fast",function(){
 					$("#resultsDiv").empty();
-					console.log(response);
 		        	if(response.length){
 						var resultsDiv = $('#resultsDiv');
 						for(var i=0;i<response.length;i++){

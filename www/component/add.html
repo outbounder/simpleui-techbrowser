@@ -54,7 +54,7 @@
 	    	 	    
 		 	// autocomplete functionality
 			$("#tagsField",this).tagit({
-				source: app.enpoint+"suggest/tag.jsonp",
+				source: app.endpoint+"suggest/tag.jsonp",
 				jsonp: true,
 				param: 'q'
 			});
@@ -68,7 +68,6 @@
 				
 				$(".addDialog", _self).loading(true, { img:'img/suggestTagsLoader.gif', align:'center' });
 				$.getJSON(saveurl, function(response){
-					console.log(response);
 					$(".addDialog", _self).loading(false);
 					if(response.indexOf("OK") != -1)
 						SexyLightbox.close();
