@@ -1,45 +1,90 @@
 <div>
 	<div class="addDialog">
-		<div>
-			<input type="text" name="url" class="urlField clearableInputField" value="paste or type url here" />
+		<div id="urlFieldHolder">
+			<input type="text" name="url" id="urlField" class="urlField clearableInputField" value="paste or type url here" />
 		</div>
 		<div>
 			<ul id="tagsField" name="tags"></ul>
   		</div>
-		<div align="center">
-			<input  type="submit" class="submitButton" value="add" />
+  		<div class="clear"></div>
+		<div class="submitButtonHolder">
+			<a href="javascript:void(0)" class="submitButton">add as anonymous</a>
+		</div>
+		<div class="changeButtonHolder">
+			<a href="javascript:void(0)" class="changeSubmitOwner">change</a>
 		</div>
 	    <script>
 	     // <![CDATA[
-	                 
+	        this.url = null;
+	        this.timeoutID = null;
+	    	var _self = this;
+	    	
+	    	this.registerSuggestTagsTimeout = function() {
+	    		if(this.timeoutID != null)
+	    			clearTimeout(this.timeoutID);
+	    		this.timeoutID = setTimeout(function(){
+		    			_self.suggestTags();
+		    		}, 500);
+	    	}
+	    	
+	        this.suggestTags = function() {
+	        	var term = $(".urlField",_self).val();
+	        	if(term != _self.url) {
+	        		_self.url = term; 
+	        		$("#urlFieldHolder", _self).loading(true, { img:'img/suggestTagsLoader.gif', align:'center' });
+		    		$.getJSON(app.endpoint+"suggest/tags.jsonp?url="+term+"&callback=?", 
+		    					function(response) {
+	    	        				$("#tagsField", _self)[0].setValue(response.join(" "));
+	    	        				$("#urlFieldHolder", _self).loading(false);
+		    	    		});
+	        	}
+	        }
+
 	        $(".clearableInputField", this).click(function(){
 	        	$(this).val("");
 	        });
-	        
-	    	// auto-tags functionality
-	    	var _self = this;
+	     
 			$(".urlField",this).change(function(){
-				var term = $(".urlField",_self).val();
-				$.loading();
-	    		$.getJSON(app.endpoint+"suggest/tags.jsonp?url="+term+"&callback=?", 
-	    					function(response) {
-    	        				$("#tagsField", _self)[0].setValue(response.join(" "));
-    	        				$.loading(false);
-	    	    		});
-	    	}); 	    
+				_self.suggestTags();
+	    	});
+			
+			$(".urlField",this).keyup(function(){
+				_self.registerSuggestTagsTimeout();
+			})
+	    	 	    
 		 	// autocomplete functionality
 			$("#tagsField",this).tagit({
-				source: "http://api-techbrowser.appspot.com/suggest/tag.jsonp",
+				source: app.enpoint+"suggest/tag.jsonp",
 				jsonp: true,
 				param: 'q'
 			});
-			$("#tagsField",this).bind("onchanged",function(){
-				$("#addForm",this).trigger("submit");
-			});
 			
 			$(".submitButton", this).click(function(){
-				SexyLightbox.close();
+				var tags = $("#tagsField")[0].getValue();
+				var saveurl = app.endpoint+"entry.jsonp?url="+_self.url+"&tags="+tags;
+				if(app.hasUser())
+					saveurl += "&owner="+app.ownerUID;
+				saveurl += "&callback=?";
+				
+				$(".addDialog", _self).loading(true, { img:'img/suggestTagsLoader.gif', align:'center' });
+				$.getJSON(saveurl, function(response){
+					console.log(response);
+					$(".addDialog", _self).loading(false);
+					if(response.indexOf("OK") != -1)
+						SexyLightbox.close();
+					else
+						alert(response);
+				});
 			});
+			
+			if(app.hasUser())
+				$(".submitButton", this).text("add as "+app.getProvider());
+			
+			$(".changeSubmitOwner",this).click(function(){
+				SexyLightbox.close();
+				app.requestUserLogin();
+			})
+			
 		// ]]>
 	    </script>
 	</div>

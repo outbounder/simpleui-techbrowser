@@ -100,3 +100,7 @@ p.credit a:hover{
 .rui-dd-menu li {
 	color:#000000;
 }
+
+#resultsDiv {
+	margin-top: 25px;
+}

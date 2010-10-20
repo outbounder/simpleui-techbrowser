@@ -1,3 +1,15 @@
+.loginbox .title {
+	margin-bottom: 15px;
+}
+
+.loginbox .loginDesc {
+	margin-top: 15px;
+}
+
+#googlelogin {
+	margin-bottom: 10px;
+}
+
 .controlmenu {
 	margin-left: 15px;
 	margin-bottom: 5px;
@@ -23,6 +35,9 @@
 .controlmenu a:hover {
 	color:#C0D0D8;
 	background-color: #4C5A65;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000;
 	
 	-moz-border-radius:16px;
 	-webkit-border-radius:16px;

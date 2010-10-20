@@ -1,5 +1,41 @@
-<div>
-	<p>There is a need for you to identify. Please do so via the buttons on upper-left corner</p>
-	<hr />
-	<p>Techbrowser is keeping record of your identity to be able to recognize your own entry submittions from others</p>
+<div class="loginbox">
+	<h4 class="title">Login via </h4>
+	<div id="googlelogin"></div>
+	<div class="clear"></div>
+	<div id='fblogin'></div>
+	<div class="clear"></div>
+	<div class="loginDesc">
+		<sub>Techbrowser is keeping record of your identity to be able to recognize your own entry submittions from others</sub>
+	</div>
+	<script>
+	//<![CDATA[
+	    var _self = this;
+	    this.init = function(){
+	    	if(app.ownerFB == null) {
+				$("#fblogin",this).append("<fb:login-button></fb:login-button>");
+				FB.XFBML.parse($("#fblogin",this)[0]);
+				$("#fblogin",this).click(function(){
+					_self.emit("pending","facebook");
+				});
+	    	} else {
+	    		$("#fblogin",this).append("<a href='javascript:void(0)'>use fb account</a>");
+	    		$("#fblogin",this).click(function(){
+	    			_self.emit("selected",app.ownerFB);
+	    		});
+	    	}
+	    	
+	    	if(app.ownerGoogle == null) {
+				google.friendconnect.renderSignInButton({ 'id':'googlelogin', 'style': 'long' });
+				$("#googlelogin",this).click(function(){
+					_self.emit("pending","google");
+				});
+	    	} else {
+	    		$("#googlelogin",this).append("<a href='javascript:void(0)'>use google account</a>");
+	    		$("#googlelogin",this).click(function(){
+	    			_self.emit("selected", app.ownerGoogle);
+	    		});
+	    	}
+	    }
+	//]]>
+	</script>
 </div>

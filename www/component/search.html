@@ -1,6 +1,6 @@
 <div>
 	<div id="searchForm">
-		<h3 align="left" style="margin-bottom: 15px">search by entering tags bellow</h3>
+		<h3 align="left" style="margin-bottom: 15px" id="searchTitle">search by entering tags bellow</h3>
 		<div id="addBtn" align="center">
 			<img src="img/add-icon.png" class="image" alt="" />or add new entry
 		</div>
@@ -11,6 +11,10 @@
 	
 	<script>
 	//<![CDATA[
+	           
+	    this.setTitle = function(title) {
+	    	$("#searchTitle", this).html(title);
+	    }
 	    
 		// add new entry functionality
 		$("#addBtn", this).click(function(){
@@ -56,8 +60,7 @@
 			
 			arr = [
 				'<div class="webResult">',
-				'<h2><a href="',r.url,'" target="_blank">',r.name,'</a></h2>',
-				'<a href="',r.url,'" target="_blank">',r.ul,'</a>',
+				'<h2><a href="',r.url,'" target="_blank">',r.url,'</a></h2>',
 				'</div>'
 			];
 				
