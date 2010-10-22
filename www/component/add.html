@@ -1,5 +1,8 @@
 <div>
 	<div class="addDialog">
+		<div id="error" style="display: none;text-align: center;color: #F00;margin-bottom: 2px">
+			Url and Tags are needed to add entry
+		</div>
 		<div id="urlFieldHolder">
 			<input type="text" name="url" id="urlField" class="urlField clearableInputField" value="paste or type url here" />
 		</div>
@@ -19,6 +22,16 @@
 	        this.timeoutID = null;
 	    	var _self = this;
 	    	
+	    	this.clearErrorTip = function(){
+	    		$("#error", _self).hide();
+	    	};
+	    	
+	    	this.showErrorTip = function(text) {
+	    		if(typeof text !== "undefined")
+	    			$("#error", _self).text(text);
+	    		$("#error", _self).show();
+	    	};
+	    	
 	    	this.registerSuggestTagsTimeout = function() {
 	    		if(this.timeoutID != null)
 	    			clearTimeout(this.timeoutID);
@@ -28,13 +41,18 @@
 	    	}
 	    	
 	        this.suggestTags = function() {
+	        	_self.clearErrorTip();
+	        	
 	        	var term = $(".urlField",_self).val();
 	        	if(term != _self.url) {
 	        		_self.url = term; 
 	        		$("#urlFieldHolder", _self).loading(true, { img:'img/suggestTagsLoader.gif', align:'center' });
 		    		$.getJSON(app.endpoint+"suggest/tags.jsonp?url="+term+"&callback=?", 
 		    					function(response) {
-	    	        				$("#tagsField", _self)[0].setValue(response.join(" "));
+		    						if(response.length>0)
+	    	        					$("#tagsField", _self)[0].setValue(response.join(" "));
+		    						else
+		    							$("#tagsField", _self)[0].clear();
 	    	        				$("#urlFieldHolder", _self).loading(false);
 		    	    		});
 	        	}
@@ -61,6 +79,12 @@
 			
 			$(".submitButton", this).click(function(){
 				var tags = $("#tagsField")[0].getValue();
+				
+				if(tags.length == 0 || _self.url.length == 0) {
+					_self.showErrorTip();
+					return;
+				}
+				
 				var saveurl = app.endpoint+"entry.jsonp?url="+_self.url+"&tags="+tags;
 				if(app.hasUser())
 					saveurl += "&owner="+app.ownerUID;
@@ -72,7 +96,7 @@
 					if(response.indexOf("OK") != -1)
 						SexyLightbox.close();
 					else
-						alert(response);
+						_self.showErrorTip(response);
 				});
 			});
 			
@@ -83,6 +107,10 @@
 				SexyLightbox.close();
 				app.requestUserLogin();
 			})
+			
+			SexyLightbox.on("close", function(){
+				_self.showErrorTip();
+			});
 			
 		// ]]>
 	    </script>

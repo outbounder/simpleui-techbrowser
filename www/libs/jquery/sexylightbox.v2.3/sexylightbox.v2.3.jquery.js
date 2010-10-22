@@ -318,8 +318,25 @@ jQuery.bind = function(object, method){
       this.show((enlace.attr("title") || enlace.attr("name") || ""), enlace.attr("href"), (enlace.attr('rel') || false));
     },
     
+    eventhandlers: [],
+    
+    on : function(eventName, eventHandler) {
+    	this.eventhandlers.push({name: eventName, handle: eventHandler});
+    },
+    
+    emit : function(eventName, eventData) {
+    	for(var i in this.eventhandlers) {
+    		if(this.eventhandlers[i].name == eventName) 
+    			if(this.eventhandlers[i].handle(eventData) === false)
+    				return false;
+    	}
+    	
+    	return true;
+    },
+    
     close: function() {
-      this.animate(0);
+      if(this.emit("close"))
+    	  this.animate(0);
     },
     
     refresh: function() {

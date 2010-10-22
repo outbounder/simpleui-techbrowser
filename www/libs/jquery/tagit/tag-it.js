@@ -123,6 +123,7 @@
 			choices.each(function(i){
 				value += " "+$(choices[i]).children(".tagit-choice-value").text();
 			})
+			value += tag_input.val();
 			return value.trim();
 		}
 		
@@ -136,6 +137,7 @@
 		// give it outside (== exports/commonjs)
 		el.get(0).getValue = getValue;
 		el.get(0).setValue = setValue;
+		el.get(0).clear = clear;
 	};
 
 	String.prototype.trim = function() {
