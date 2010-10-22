@@ -114,10 +114,10 @@ Component = function() {
 				}
 			};
 
-			req.send();
+			req.send(null); // null because of FF3.0
 		} else {
 			req.open("GET", context.path + ".html", false);
-			req.send();
+			req.send(null); // null because of FF3.0
 			if (req.status == 200 || req.status == 304) {
 				componentCacheCollection[context.path + ".html"] = req.responseText;
 
@@ -173,7 +173,7 @@ Component = function() {
 		var content;
 		if (componentCacheCollection[path + ".js"] === undefined) {
 			req.open("GET", path + ".js", false);
-			req.send();
+			req.send(null); // null because of FF3.0
 			if (req.status != 200 && req.status != 304)
 				console.error("script not found " + path);
 			componentCacheCollection[path + ".js"] = req.responseText;
