@@ -2,12 +2,19 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Techbrowser Powered Site Search</title>
-		<link rel="stylesheet" href="css/searchbox.css" type="text/css" /> 
+		<title>Techbrowser Powered Search</title>
+		<link href="css/reset.css" rel="stylesheet" type="text/css"  />
+		<link rel="stylesheet" href="css/index.css" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
 	</head>
 
-	<body style="background-color: #677a87">
-	    <div class="searchboxFrame">
-	    </div>
+	<body class="body">
+		<!-- jquery -->    
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+		
+		<script type="component" source="searchBox"></script>
+		
+		<script src="./componentjs/component.js?overrideCurrent"></script>
 	</body>
 </html>
