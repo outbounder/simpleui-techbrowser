@@ -1,0 +1,12 @@
+.searchboxFrame
+{
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	width:800px;
+	height:443px;
+	margin-top: -221px; /*set to a negative number 1/2 of your height*/
+	margin-left: -400px; /*set to a negative number 1/2 of your width*/
+	background-image: url('../images/background.png');
+	border: 2px solid #2982C6;
+}
