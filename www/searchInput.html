@@ -38,6 +38,14 @@
 			}
 		});
 		
+		var hintHidden = false;
+		tag_input.focus(function(event){
+			if(!hintHidden) {
+				hintHidden = true;
+				tag_input.val("");
+			}
+		});
+		
 		tag_input.keydown(function(event){
 			if (event.which == BACKSPACE) {
 				if (tag_input.val() == "") {
