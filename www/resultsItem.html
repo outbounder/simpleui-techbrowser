@@ -1,13 +1,17 @@
 <div class="resultItem">
 	<h2>
+		<img src="" width="16" height="16" id="favicon" class="favicon"/>
 		<a href="" target="_blank" id="link"></a>
 		<p id="tags"></p>
 	</h2>
 	
 	<script>
 		this.setData = function(response) {
-			console.log(response.tags);
 			$("#link", this).attr("href", response.url).text(response.url);
+			$("#favicon", this).attr("src", "http://"+response.url.match(/:\/\/(.[^/]+)/)[1]+"/favicon.ico" );
+			$("#favicon", this)[0].onerror = function() {
+				$(this).hide();
+			}
 			if(typeof response.tags !== "undefined")
 				$("#tags", this).text(response.tags.join(" "));
 			else

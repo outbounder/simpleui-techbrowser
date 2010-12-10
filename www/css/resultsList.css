@@ -29,3 +29,8 @@
 .resultItem p{ line-height:1.5; padding:8px 8px;}
 .resultItem p b{ color:white;}
 .resultItem > a{ margin-left:20px;}
+
+.resultItem .favicon {
+	float: left;
+	padding: 8px 8px;
+}

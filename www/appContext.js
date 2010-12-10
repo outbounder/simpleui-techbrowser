@@ -5,6 +5,8 @@ var AppContext =  function() {
 		googleAnalyticsKey = 'UA-11129132-4';
 	
 	this.query = function(terms, callback) {
+		console.log(terms);
+		
 		$.getJSON(endpoint+"search.jsonp?q="+terms+"&callback=?", function(response) {
 			callback(response);
 	    });
