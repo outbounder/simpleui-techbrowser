@@ -21,16 +21,47 @@
 		<script src="./appContext.js"></script>
 		<script>
 			Component.overrideCurrent();
+			
+			var animated = false;
+			var normalizationTimeoutId = null;
 			var appContext = new AppContext();
 			this.searchBox.on("query", function(terms){
 				appContext.query(terms, function(response){
 					$("#resultsList").fadeOut("fast",function(){
 						$("#resultsList").empty();
 			        	if(response.length){
+			        		if(normalizationTimeoutId)
+			        			clearTimeout(normalizationTimeoutId);
+			        		
+			        		if(!animated) {
+			        			$("#searchBox").animate({ 
+								    top: "0%",
+								    marginTop: "0px"
+								  }, 1500 );
+								$("#resultsList").animate({ 
+									marginTop: "0px"
+								  }, 1500 );
+								animated = true;
+			        		}
+			        		
+			        		
 							var resultsList = $("#resultsList");
 							for(var i=0;i<response.length;i++){
 								resultsList[0].addItem(response[i]);
 							}
+						} else {
+							normalizationTimeoutId = setTimeout(function(){
+								if(animated) {
+									$("#searchBox").animate({ 
+									    top: "50%",
+									    marginTop: "-221px"
+									  }, 1500 );
+									$("#resultsList").animate({ 
+										marginTop: "221px"
+									  }, 1500 );
+									animated = false;
+								}
+							}, 2000);
 						}
 			        	$("#resultsList").fadeIn("fast");
 					});
