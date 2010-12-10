@@ -296,7 +296,8 @@ Component = function() {
 		if(typeof scripts[i].src != 'undefined')
 			if(scripts[i].src.indexOf("component.js") != -1) {
 				var parts = scripts[i].src.split("?");
-				Component[parts[1]]();
+				if(parts[1])
+					Component[parts[1]]();
 			}
 
 })();

@@ -13,8 +13,29 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
 		
-		<script type="component" source="searchBox"></script>
+		<script type="component" source="searchBox" id="searchBox"></script>
+		<script type="component" source="resultsList" id="resultsList"></script>
 		
-		<script src="./componentjs/component.js?overrideCurrent"></script>
+		<script src="./componentjs/component.js"></script>
+		<script src="./componentjs/component-extend-emitter.js"></script>
+		<script src="./appContext.js"></script>
+		<script>
+			Component.overrideCurrent();
+			var appContext = new AppContext();
+			this.searchBox.on("query", function(terms){
+				appContext.query(terms, function(response){
+					$("#resultsList").fadeOut("fast",function(){
+						$("#resultsList").empty();
+			        	if(response.length){
+							var resultsList = $("#resultsList");
+							for(var i=0;i<response.length;i++){
+								resultsList[0].addItem(response[i]);
+							}
+						}
+			        	$("#resultsList").fadeIn("fast");
+					});
+				});
+			});
+		</script>
 	</body>
 </html>

@@ -1,0 +1,17 @@
+<div class="resultItem">
+	<h2>
+		<a href="" target="_blank" id="link"></a>
+		<p id="tags"></p>
+	</h2>
+	
+	<script>
+		this.setData = function(response) {
+			console.log(response.tags);
+			$("#link", this).attr("href", response.url).text(response.url);
+			if(typeof response.tags !== "undefined")
+				$("#tags", this).text(response.tags.join(" "));
+			else
+				$("#tags", this).hide();
+		}
+	</script>
+</div>

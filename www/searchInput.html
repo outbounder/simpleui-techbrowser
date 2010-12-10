@@ -51,7 +51,6 @@
 				if (tag_input.val() == "") {
 					// When backspace is pressed, the last tag is deleted.
 					$(el).children(".tagit-choice:last").remove();
-					el.trigger("onchanged");
 				}
 			}
 		});
@@ -72,11 +71,12 @@
 						// Cleaning the input.
 						tag_input.val("");
 						
-						el.trigger("onchanged");
 						tag_input.autocomplete("close");
 					}
 				}
 			}
+			
+			el.trigger("changed");
 		});
 		
 		tag_input.autocomplete({
@@ -96,7 +96,7 @@
 				
 				// Cleaning the input.
 				tag_input.val("");
-				el.trigger("onchanged");
+				el.trigger("changed");
 
 				// Preventing the tag input to be update with the chosen value.
 				return false;
@@ -125,12 +125,12 @@
 			tag_input.val("");
 		}
 		
-		function clear() {
+		this.clear = function() {
 			tag_input.empty();
 			tag_input.parents("ul").children(".tagit-choice").remove();
 		}
 		
-		function getValue() {
+		this.getValue = function() {
 			var value = "";
 			var choices = tag_input.parents("ul").children(".tagit-choice");
 			choices.each(function(i){
@@ -140,17 +140,12 @@
 			return value.replace(/^\s+|\s+$/g,"");
 		}
 		
-		function setValue(value) {
-			clear();
+		this.setValue = function(value) {
+			this.clear();
 			var parts = value.split(" "); // comma too?
 			for(var p in parts)
 				create_choice(parts[p]);
 		}
-		
-		// give it outside (== exports/commonjs)
-		this.getValue = getValue;
-		this.setValue = setValue;
-		this.clear = clear;
 		
 	//]]>
 	</script>

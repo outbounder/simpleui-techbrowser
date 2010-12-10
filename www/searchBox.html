@@ -1,7 +1,86 @@
  <div class="searchboxFrame">
  	<link rel="stylesheet" href="css/searchbox.css" type="text/css" />
- 	<canvas id="searchboxFrame" class="searchboxFrameCanvas" width="800" height="443"/>
- 	<script type="component" source="searchInput" />
+ 	
+ 	<canvas id="searchboxCanvas" class="searchboxCanvas" width="800" height="443">
+ 		<script>
+	 	//<![CDATA[
+		 	var Stage = function(canvas) {
+				this.context = canvas.getContext('2d');
+				this.circles = [];
+				
+				this.add = function(circle) {
+					this.circles.push(circle);
+				}
+				
+				this.render = function() {
+					this.context.clearRect(0, 0, 800, 443);
+					
+					this.context.beginPath();
+					for(var i = 0; i<this.circles.length; i++) {
+						if(i == 0)
+							this.context.moveTo(this.circles[i].getCenterX(),this.circles[i].getCenterY());
+						this.context.lineTo(this.circles[i].getCenterX(),this.circles[i].getCenterY());
+					}
+					
+					this.context.strokeStyle = "#fff"; 
+					this.context.stroke(); 
+					
+					for(var i = 0; i<this.circles.length; i++)
+						this.circles[i].render(this.context);
+				}
+				
+				this.renderOnReady = function(){
+					for(var i = 0; i<this.circles.length; i++) {
+						if(!this.circles[i].ready)
+							return;
+					}
+					
+					this.render();
+				}
+			} 	            
+	 	            
+	 		var Circle = function(data, image){
+	 			
+	 			this.ready = false;
+	 			this.data = data;
+	 			this.image =  image;
+	 			
+	 			this.render = function(context) {
+	 				context.drawImage(this.image, this.data.x, this.data.y); 				
+	 			}
+	 			
+	 			this.getX = function() {return this.data.x;};
+	 			this.getY = function() {return this.data.y;};
+	 			this.getWidth = function() {return this.image.width;};
+	 			this.getHeight = function() {return this.image.height;};
+	 			this.getCenterX = function() {return this.getX()+this.getWidth()/2;}; 
+				this.getCenterY = function() {return this.getY()+this.getHeight()/2;};
+	 		};
+	 		
+	 		var stage = new Stage(this);
+	 		
+	 		this.setData = function(circlePossitions) {
+		 		var circles = [];
+				for(var i = 0; i<circlePossitions.length; i++) {
+					
+					var circleImage = new Image();
+					circleImage.src = "images/circle"+i+".png";
+					circleImage.index = i;
+					circleImage.circle = new Circle(circlePossitions[i]);
+					circleImage.onload = function(){
+						this.circle.ready = true;
+						this.circle.image = this;
+						stage.renderOnReady();
+					}
+					stage.add(circleImage.circle);
+				}
+			}
+		//]]>
+ 		</script>
+ 	</canvas>
+ 	
+ 	<script type="component" source="searchInput" id="searchInput" />
+ 	
  	<img src="images/add_normal.png" alt="add" id="addButton" class="addButton">
  		<script>
  			$(this).mouseover(function(){
@@ -34,79 +113,14 @@
  	
  	<script>
  	// <![CDATA[
-		var Stage = function(canvas) {
-			this.context = canvas.getContext('2d');
-			this.circles = [];
-			
-			this.add = function(circle) {
-				this.circles.push(circle);
-			}
-			
-			this.render = function() {
-				this.context.clearRect(0, 0, 800, 443);
-				
-				this.context.beginPath();
-				for(var i = 0; i<this.circles.length; i++) {
-					if(i == 0)
-						this.context.moveTo(this.circles[i].getCenterX(),this.circles[i].getCenterY());
-					this.context.lineTo(this.circles[i].getCenterX(),this.circles[i].getCenterY());
-				}
-				
-				this.context.strokeStyle = "#fff"; 
-				this.context.stroke(); 
-				
-				for(var i = 0; i<this.circles.length; i++)
-					this.circles[i].render(this.context);
-			}
-			
-			this.renderOnReady = function(){
-				for(var i = 0; i<this.circles.length; i++) {
-					if(!this.circles[i].ready)
-						return;
-				}
-				
-				this.render();
-			}
-		} 	            
- 	            
- 		var Circle = function(data, image){
- 			
- 			this.ready = false;
- 			this.data = data;
- 			this.image =  image;
- 			
- 			this.render = function(context) {
- 				context.drawImage(this.image, this.data.x, this.data.y); 				
- 			}
- 			
- 			this.getX = function() {return this.data.x;};
- 			this.getY = function() {return this.data.y;};
- 			this.getWidth = function() {return this.image.width;};
- 			this.getHeight = function() {return this.image.height;};
- 			this.getCenterX = function() {return this.getX()+this.getWidth()/2;}; 
-			this.getCenterY = function() {return this.getY()+this.getHeight()/2;};
- 		};
- 		
- 		var stage = new Stage(this.searchboxFrame);
- 		var circlePossitions = [{x: 10,y:280},{x: 30, y:180}, {x:90,y:40}, {x:190,y:80}, {x:260, y:50}, {x:221,y:169}, {x:346,y:73}, {x: 392, y: 142}, {x: 700, y: 200}];
- 		var addbuttonPossition = {x: 580, y:219};
- 		var circles = [];
-		for(var i = 0; i<circlePossitions.length; i++) {
-			
-			var circleImage = new Image();
-			circleImage.src = "images/circle"+i+".png";
-			circleImage.index = i;
-			circleImage.circle = new Circle(circlePossitions[i]);
-			circleImage.onload = function(){
-				this.circle.ready = true;
-				this.circle.image = this;
-				stage.renderOnReady();
-			}
-			stage.add(circleImage.circle);
-		}
-		
+ 	    var circlePossitions = [{x: 10,y:280},{x: 30, y:180}, {x:90,y:40}, {x:190,y:80}, {x:260, y:50}, {x:221,y:169}, {x:346,y:73}, {x: 392, y: 142}, {x: 700, y: 200}];
+		var addbuttonPossition = {x: 580, y:219};
 		this.addButton.setData(addbuttonPossition);
-		
+		this.searchboxCanvas.setData(circlePossitions);
+		var _self = this;
+		$(this.searchInput).bind("changed",function() {
+			_self.emit("query", _self.searchInput.getValue());			
+		});
 	// ]]>	
  	</script>
  </div>
