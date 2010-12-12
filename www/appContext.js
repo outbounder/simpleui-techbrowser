@@ -8,20 +8,12 @@ var AppContext =  function() {
 		ajaxCall = null;
 	
 	this.query = function(terms, callback) {
-		if(timeout)
-			clearTimeout(timeout);
+		if(terms == lastQuery)
+			return;
 		
-		timeout = setTimeout(function(){
-			if(ajaxCall)
-				ajaxCall.abort();
-			
-			if(terms == lastQuery)
-				return;
-			
-			lastQuery = terms;
-			ajaxCall = $.getJSON(endpoint+"search.jsonp?q="+terms+"&callback=?", function(response) {
-				callback(response);
-		    });
-		},150);
+		lastQuery = terms;
+		ajaxCall = $.getJSON(endpoint+"search.jsonp?q="+terms+"&callback=?", function(response) {
+			callback(response);
+	    });
 	};
 };

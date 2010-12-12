@@ -22,6 +22,7 @@
 		<script>
 			Component.overrideCurrent();
 			
+			var _self = this;
 			var animated = false;
 			var normalizationTimeoutId = null;
 			var appContext = new AppContext();
@@ -36,11 +37,16 @@
 			        		if(!animated) {
 			        			$("#searchBox").animate({ 
 								    top: "0%",
-								    marginTop: "0px"
-								  }, 1500 );
+								    marginTop: "0px",
+								  }, 
+								  1500, 
+								  function(){
+								    	_self.searchBox.showAutosuggestBox();
+								  });
 								$("#resultsList").animate({ 
 									marginTop: "0px"
 								  }, 1500 );
+								_self.searchBox.closeAutosuggestBox();
 								animated = true;
 			        		}
 			        		
@@ -49,6 +55,8 @@
 							for(var i=0;i<response.length;i++){
 								resultsList[0].addItem(response[i]);
 							}
+							
+							
 						} else {
 							normalizationTimeoutId = setTimeout(function(){
 								if(animated) {

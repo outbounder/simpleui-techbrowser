@@ -65,6 +65,10 @@ ul.tagit li.tagit-new {
 	padding:2px 4px 1px 0;
 }
 
+.tagit-new {
+	width: 100%;
+}
+
 ul.tagit li.tagit-choice input {
 	display:block;
 	float:left;

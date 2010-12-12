@@ -9,6 +9,7 @@
 	
 	<script>
 	//<![CDATA[
+	    var _self = this;
 	    var tag_input = this.taginput = this.searchField.tags.taginput;
 	    tag_input = $(tag_input);
 	    
@@ -76,7 +77,7 @@
 				}
 			}
 			
-			el.trigger("changed");
+			_self.triggerChanged();
 		});
 		
 		tag_input.autocomplete({
@@ -96,7 +97,7 @@
 				
 				// Cleaning the input.
 				tag_input.val("");
-				el.trigger("changed");
+				_self.triggerChanged();
 
 				// Preventing the tag input to be update with the chosen value.
 				return false;
@@ -145,6 +146,24 @@
 			var parts = value.split(" "); // comma too?
 			for(var p in parts)
 				create_choice(parts[p]);
+		}
+		
+		this.changedTimeoutId = null;
+		this.triggerChanged = function() {
+			if(this.changedTimeoutId != null)
+				clearTimeout(this.changedTimeoutId);
+			this.changedTimeoutId = setTimeout(function(){
+				_self.emit("changed");
+				_self.changedTimeoutId = null;
+			}, 150);
+		}
+		
+		this.closeAutosuggestBox = function() {
+			tag_input.autocomplete('close');
+		}
+		
+		this.showAutosuggestBox = function(){
+			tag_input.autocomplete('search');
 		}
 		
 	//]]>

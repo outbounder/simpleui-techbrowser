@@ -118,9 +118,15 @@
 		this.addButton.setData(addbuttonPossition);
 		this.searchboxCanvas.setData(circlePossitions);
 		var _self = this;
-		$(this.searchInput).bind("changed",function() {
+		this.searchInput.on("changed",function() {
 			_self.emit("query", _self.searchInput.getValue());			
 		});
+		this.closeAutosuggestBox = function() {
+			this.searchInput.closeAutosuggestBox();
+		}
+		this.showAutosuggestBox = function(){
+			this.searchInput.showAutosuggestBox();
+		}
 	// ]]>	
  	</script>
  </div>
