@@ -1,0 +1,84 @@
+ <div class="inputboxFrame">
+ 	<link rel="stylesheet" href="css/inputbox.css" type="text/css" />
+ 	
+ 	<script type="component" source="entriesCanvas" />
+ 	<script type="component" source="userInput" id="userInput" class="userInput"/>
+ 	
+ 	<img src="images/add_normal.png" alt="add" id="addButton" class="addButton">
+ 		<script>
+ 			$(this).mouseover(function(){
+				this.src = "images/add_over.png";
+				this.isOver = true;
+			});
+			
+			$(this).mouseout(function(){
+				this.src = "images/add_normal.png";
+				this.isOver = undefined;
+			});
+			
+			$(this).mousedown(function(){
+				this.src = "images/add_down.png";
+			});
+			
+			$(this).mouseup(function(){
+				if(this.isOver)
+					this.src = "images/add_over.png";
+				else
+					this.src = "images/add_normal.png";
+			});
+			
+			this.setData = function(data){
+				this.style.top = data.y+"px";
+				this.style.left = data.x+"px";
+			};
+ 		</script>
+ 	</img>
+ 	
+ 	<script>
+ 	// <![CDATA[
+ 	    var _self = this;
+ 	            
+		var addbuttonPossition = {x: 580, y:219};
+		this.addButton.setData(addbuttonPossition);
+		
+		$(this.addButton).click(function() {
+			if(_self.mode == "input") {
+				_self.emit("save",{url: _self.userInput.getUrl(), tags: _self.userInput.getValue()});
+				_self.setMode("search");
+			}
+		});
+		
+		this.userInput.on("changed",function() {
+			var value = _self.userInput.getValue();
+			if(value.indexOf("http://") != -1) {
+				if(value.indexOf(".") != -1)
+					_self.emit("urlInput", value);
+				if(this.mode != "input")
+					_self.setMode("input");
+			}
+			else if(this.mode != "input")
+				_self.emit("query", value);
+		});
+		
+		this.userInput.on("urlInputComplete",function(){
+			_self.emit("urlInput", value);
+		})
+		
+		this.closeAutosuggestBox = function() {
+			this.userInput.closeAutosuggestBox();
+		}
+		this.showAutosuggestBox = function(){
+			this.userInput.showAutosuggestBox();
+		}
+		this.setEntryTags = function(tags) {
+			this.userInput.setValue(tags.join(" "));
+		}
+		this.setMode = function(mode){
+			this.mode = mode;
+			this.userInput.setMode(mode);
+		}
+		
+		this.setMode("search");
+	// ]]>	
+ 	</script>
+ </div>

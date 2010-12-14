@@ -1,4 +1,4 @@
-.searchboxFrame
+.inputboxFrame
 {
 	position:absolute;
 	top: 50%;
@@ -9,7 +9,7 @@
 	margin-left: -400px; /*set to a negative number 1/2 of your width*/
 }
 
-.searchboxFrameCanvas
+.inputboxCanvas
 {
 	position:absolute;
 	width:800px;
@@ -22,4 +22,11 @@
 	position:absolute;
 	width:72px;
 	height:72px;
+}
+
+.userInput {
+	position:absolute;
+	width: 405px;
+	top: 245px;
+	left: 140px;
 }
