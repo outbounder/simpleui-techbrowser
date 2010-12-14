@@ -8,9 +8,10 @@
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
 		<link href="css/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
 		
-		<!-- social -->
+		<!-- social 
 		<script type="text/javascript" src="http://www.google.com/friendconnect/script/friendconnect.js"></script>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
+		-->
 	</head>
 
 	<body class="body">
@@ -67,7 +68,11 @@
 			});
 			
 			this.inputBox.on("query", function(terms){
-				history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX  
+				if(typeof history.pushState === "function")
+					history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX
+				else
+					window.location.hash = "#/"+terms.join('/');
+				
 				appContext.query(terms, function(response){
 					$("#resultsList").fadeOut("fast",function(){
 						
