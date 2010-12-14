@@ -67,11 +67,16 @@
 			});
 			
 			this.inputBox.on("query", function(terms){
+				history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX  
 				appContext.query(terms, function(response){
 					$("#resultsList").fadeOut("fast",function(){
 						
 						$("#resultsList")[0].clearItems();
 			        	if(response.length){
+			        		
+			        		if(response.length > 1)
+			        			$("#entriesCanvas")[0].setCircleData(0,'number',response.length+" matches");
+			        		
 			        		if(normalizationTimeoutId)
 			        			clearTimeout(normalizationTimeoutId);
 			        		
@@ -140,8 +145,22 @@
 				});
 			});
 			
-			var appSocialContext = new AppSocialContext();
-			appSocialContext.hookToSocialLogins();
+			window.onpopstate = function(event) {
+				if(typeof event.terms != 'undefined') {
+					this.inputBox.setTags(event.terms);
+					this.inputBox.emit("query", event.terms);
+				}
+			}
+			
+			var hash = window.location.hash;
+			if(hash.length > 0) {
+				terms = hash.substr(2).split("/");
+				this.inputBox.setTags(terms);
+				this.inputBox.emit("query", terms);
+			}
+			
+			/*var appSocialContext = new AppSocialContext();
+			appSocialContext.hookToSocialLogins();*/
 			
 		</script>
 		
