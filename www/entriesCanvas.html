@@ -12,6 +12,10 @@
 				this.circles.push(circle);
 			}
 			
+			this.at = function(index) {
+				return this.circles[index];
+			}
+			
 			this.render = function() {
 				this.context.clearRect(0, 0, 800, 443);
 				
@@ -46,9 +50,13 @@
  			this.image =  image;
  			
  			this.render = function(context) {
- 				context.drawImage(this.image, this.data.x, this.data.y); 				
+ 				context.drawImage(this.image, this.data.x, this.data.y);
+ 				if(typeof this.data.number != "undefined") {
+ 					var textWidth = context.measureText(this.data.number).width;
+ 					context.fillText(this.data.number,this.getCenterX()-textWidth/2,this.getCenterY());
+ 				}
  			}
- 			
+
  			this.getX = function() {return this.data.x;};
  			this.getY = function() {return this.data.y;};
  			this.getWidth = function() {return this.image.width;};
@@ -75,6 +83,11 @@
 				stage.add(circleImage.circle);
 			}
 		}
+ 		
+ 		this.setCircleData = function(circleIndex, dataName, dataValue) {
+ 			stage.at(circleIndex).data[dataName] = dataValue;
+ 			stage.renderOnReady();
+ 		}
  		
  		this.setData(circlePossitions);
 	//]]>
