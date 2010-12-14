@@ -1,0 +1,88 @@
+.ui-autocomplete {
+	background-color: #b2bcc2;
+	position: absolute;
+	cursor: default;
+}
+.ui-autocomplete .ui-menu-item {
+}
+.ui-autocomplete  .ui-menu-item a {
+	display:block;
+	padding:4px 6px;
+	text-decoration:none;
+	line-height:12px;
+	color:#000;
+}
+.ui-autocomplete .ui-menu-item a.ui-state-hover,
+.ui-autocomplete .ui-menu-item a.ui-state-active {
+	background-color:#78959D;
+	color:#fff;
+	margin:0;
+}
+.ui-autocomplete-loading {
+	background: url("../images/suggestTagsLoader.gif") right center no-repeat;
+}
+
+.tagit {
+	background-color: #b2bcc2;
+	padding: 5px;
+	margin: 5px;
+}
+
+.tagit .tagit-choice {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:2px 5px 2px 0;
+	background-color:#DEE7F8;
+	border:1px solid #CAD8F3;
+	color: #000000;
+	float: left;
+}
+
+.tagit .tagit-choice .value {
+	float: left;
+}
+
+.tagit .tagit-choice:hover {
+	background-color:#bbcef1;
+	border-color:#6d95e0;
+	color: #000000;
+}
+
+.tagit .tagit-choice a.close {
+	color:#777777;
+	cursor:pointer;
+	font-size:12px;
+	font-weight:bold;
+	outline:medium none;
+	padding:2px 0 2px 3px;
+	text-decoration:none;
+	float: left;
+}
+
+.inputFrame {
+	padding: 5px;
+}
+
+.input {
+	border: solid;	
+	border-width:1px;
+	border-color:#000;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	
+	margin: 0px;
+	padding:10px;
+	width:389px;
+	
+	color:#000;
+	background-color:#b2bcc2;
+}
+
+.userInput {
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	background-color: #b2bcc2;
+}

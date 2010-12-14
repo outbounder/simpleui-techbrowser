@@ -1,0 +1,231 @@
+<div class="userInput">
+	<link rel="stylesheet" href="css/userinput.css" type="text/css" />
+	
+	<div class="tagit" id="tags">
+		<div style="clear:both;" id="end"></div>
+	</div>
+	<div class="inputFrame">
+		<input class="input" type="text" autocomplete="off" id="taginput" />
+	</div>
+	
+	<script>
+	//<![CDATA[
+	    var _self = this;
+	    var taginput = $("#taginput",this);
+	    var tags = $(this.tags);
+	    
+	    this.hintValue = "";
+	    this.mode = "";
+	   
+	    const BACKSPACE		= 8;
+		const ENTER			= 13;
+		const SPACE			= 32;
+		const COMMA			= 44;
+	    const CTRL 			= 17; 
+	    const VKEY 			= 86;
+	    const CKEY 			= 67;
+	    var ctrlDown = false;
+	    
+		$(this).click(function(e){
+			if (e.target.tagName == 'A') {
+				// Removes a tag when the little 'x' is clicked.
+				// Event is binded to the UL, otherwise a new tag (LI > A) wouldn't have this event attached to it.
+				$(e.target).parent().remove();
+				
+				if(_self.getTags().length == 0)
+					tags.hide();
+				
+				_self.triggerChanged();
+			}
+			else {
+				// Sets the focus() to the input field, if the user clicks anywhere inside the UL.
+				// This is needed because the input field needs to be of a small size.
+				taginput.focus();
+			}
+		});
+		
+		taginput.focus(function(event){
+			if(taginput.val() == _self.hintValue)
+				taginput.val("");
+		});
+		
+		taginput.blur(function(event){
+			if(taginput.val() == "")
+				taginput.val(_self.hintValue);
+		});
+		
+		taginput.keydown(function(event){
+			if(event.which == CTRL)
+				ctrlDown = true;
+			
+			if (event.which == BACKSPACE) {
+				if (taginput.val() == "") {
+					
+					// When backspace is pressed, the last tag is deleted.
+					tags.children(".tagit-choice:last").remove();
+					
+					if(_self.getTags().length == 0)
+						tags.hide();
+					
+					_self.triggerChanged();
+				}
+			}
+		});
+		
+		taginput.keyup(function(event){
+			var typed = _self.getInputValue();
+			
+			if(typed.indexOf("http:") == -1) {
+
+				// Comma/Space/Enter are all valid delimiters for new tags.
+				if (event.which == COMMA || event.which == SPACE || event.which == ENTER) {
+					event.preventDefault();
+	
+					if (typed != "") {
+						if (is_new (typed)) {
+							create_choice (typed);
+							
+							// Cleaning the input.
+							taginput.val("");
+							taginput.autocomplete("close");
+						}
+					}
+				}
+				
+				_self.triggerChanged();
+				
+			} else {
+				_self.setAutoCompleteEnabled(false);
+				
+				if (event.which == COMMA || event.which == SPACE || event.which == ENTER || (ctrlDown && event.which == VKEY) ) {
+					ctrlDown = false;
+					event.preventDefault();
+					
+					_self.emit("urlInputComplete", typed);
+				}
+			}
+		});
+		
+		taginput.keyup(function(event){
+			if(event.which == CTRL)
+				ctrlDown = false;
+		});
+		
+		taginput.autocomplete({
+			source: function(request,response) {
+				_self.emit("autocomplete",{request: request, callback: response});
+			},
+			focus: function(event,ui) {
+				taginput.val(ui.item.value);
+			},
+			select: function(event,ui){
+				if (is_new (ui.item.value)) {
+					create_choice (ui.item.value);
+					
+					// Cleaning the input.
+					taginput.val("");
+					
+					_self.triggerChanged();
+				}
+
+				// Preventing the tag input to be update with the chosen value.
+				return false;
+			}
+		});
+
+		function is_new (value){
+			var is_new = true;
+			tags.children(".tagit-choice").each(function(i){
+				n = $(this).children("input").val();
+				if (value == n) {
+					is_new = false;
+				}
+			})
+			return is_new;
+		}
+		
+		function create_choice (value){
+			var el = "";
+			el  = "<div class=\"tagit-choice\">\n";
+			el += "<div class='value'>"+value+"</div>\n";
+			el += "<a class=\"close\">x</a>\n";
+			el += "</div>\n";
+			$("#end",tags).before($(el));
+			taginput.val("");
+			tags.show();
+		}
+		
+		this.clearAll = function() {
+			taginput.val("");
+			_self.setAutoCompleteEnabled(true);
+			taginput.blur();
+			taginput.val(this.hintValue);
+			this.clearTags();
+		}
+		
+		this.clearTags = function() {
+			tags.children(".tagit-choice").remove();
+			tags.hide();
+		}
+		
+		this.getInputValue = function() {
+			if(taginput.val() == this.hintValue)
+				return "";
+			
+			return taginput.val().trim();
+		}
+		
+		this.setInputHintValue = function(value) {
+			this.hintValue = value;
+		}
+		
+		this.getTags = function() {
+			var result = [];
+			var choices = tags.children(".tagit-choice");
+			choices.each(function(i){
+				var tagName = $(choices[i]).children(".value").text();
+				result.push(tagName)
+			})
+			return result;
+		}
+		
+		this.setTags = function(tags) {
+			this.clearTags();
+			for(var p in tags)
+				create_choice(tags[p]);
+		}
+		
+		this.appendTags = function(tags) {
+			for(var p in tags)
+				create_choice(tags[p]);
+		}
+		
+		this.changedTimeoutId = null;
+		this.triggerChanged = function() {
+			
+			if(this.changedTimeoutId != null)
+				clearTimeout(this.changedTimeoutId);
+			this.changedTimeoutId = setTimeout(function(){
+				_self.emit("inputChanged");
+				_self.changedTimeoutId = null;
+			}, 250);
+		}
+		
+		this.setLoading = function(value) {
+			if(value)
+				$(".inputFrame").loading(true, {img:'images/suggestTagsLoader.gif', align:'center'});
+			else
+				$(".inputFrame").loading(false);
+		}
+		
+		this.setAutoCompleteEnabled = function(value) {
+			if(value)
+				taginput.autocomplete("enable");
+			else
+				taginput.autocomplete("disable");
+		}
+		
+		tags.hide();
+	//]]>
+	</script>
+</div>

@@ -1,0 +1,12 @@
+<div class="resultsList">
+	<link rel="stylesheet" href="css/resultsList.css" type="text/css" />
+	
+	<script>
+		this.addItem = function(itemData) {
+			// Creating a new result object and firing its toString method:
+			var item = Component.fromPath("resultsItem");
+			item.setData(itemData);
+			this.appendChild(item);
+		}
+	</script>
+</div>

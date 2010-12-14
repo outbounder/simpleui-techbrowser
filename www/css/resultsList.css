@@ -1,0 +1,36 @@
+.resultsList
+{
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	width:800px;
+	margin-top: 221px; /*set to a negative number 1/2 of your height*/
+	margin-left: -400px; /*set to a negative number 1/2 of your width*/
+}
+
+.resultItem { 
+	text-shadow:1px 1px 0 #586a75;
+	margin-bottom: 8px;
+}
+
+.resultItem h2{ 
+	background-color:#5D6F7B;
+	font-size:18px;
+	font-weight:normal;
+	padding:8px 8px;
+	
+	/* Applying CSS3 rounded corners */
+	-moz-border-radius:18px;
+	-webkit-border-radius:18px;
+	border-radius:18px;
+}
+.resultItem h2 b{ color:#fff; }
+.resultItem h2 a{ color:#eee;border:none;}
+.resultItem p{ line-height:1.5; padding:8px 8px;}
+.resultItem p b{ color:white;}
+.resultItem > a{ margin-left:20px;}
+
+.resultItem .favicon {
+	float: left;
+	padding: 8px 8px;
+}

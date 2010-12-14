@@ -2,86 +2,152 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Techbrowser Powered Site Search</title>
-		
-		<!-- reset css -->
-		<link href="style/reset.css" rel="stylesheet" type="text/css"  />
-		<!-- jquery-ui -->
-		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css">
-		<!-- tag-it / autocomplete -->
-		<link href="style/jquery.ui.autocomplete.custom.css" rel="stylesheet" type="text/css"  />
-		<!-- SexyLightbox -->
-		<link href="style/sexylightbox.css" rel="stylesheet" type="text/css"  />
-		<!-- loading -->
-		<link href="style/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
-		
-		<!--  techbrowser -->
-		<link rel="stylesheet" type="text/css" href="style/styles.css" />
-		<link rel="stylesheet" type="text/css" href="style/techlight.css" />
-		<!--  addDialog -->
-		<link rel="stylesheet" type="text/css" href="style/addDialog.css" />
+		<title>Techbrowser Powered Search</title>
+		<link href="css/reset.css" rel="stylesheet" type="text/css"  />
+		<link href="css/index.css" rel="stylesheet" type="text/css" />
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
 		
 		<!-- social -->
 		<script type="text/javascript" src="http://www.google.com/friendconnect/script/friendconnect.js"></script>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
-		
-		<!-- Load the Google AJAX API Loader -->
-		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 	</head>
 
-	<body>
-		<!-- Load the Google Friend Connect javascript library. -->
-		<script type="text/javascript">
-		  	google.load('friendconnect', '0.8');
-		</script>
-		
+	<body class="body">
 		<!-- needed by fb -->
 		<div id="fb-root"></div>
 		
-		<script type="component" source="component/loggedbox" id="loggedbox"></script>
-		
-		<div id="page">
-			
-		    <script type="component" source="component/controlmenu" id="controlmenu"></script>
-		    <script type="component" source="component/search" id="searchbox"></script>
-		    
-		</div>
-		
-		<!-- It would be great if you leave the link back to the tutorial. Thanks! -->
-		<p class="credit">
-			<a href="http://tutorialzine.com/2010/09/google-powered-site-search-ajax-jquery/">Initial Design/Layout by Tzine</a>
-			<a href="http://dryicons.com">Add icon by http://dryicons.com</a>
-			UI Implementation <a href="http://obi.wizartworx.com/">outbounder</a>@<a href="http://east.fi">EAST</a>
-		</p>
-		
-		<!-- code behind :D -->
-		<script src="libs/LAB.js"></script>
 		<!-- jquery -->    
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
-		<!-- tag-it -->
-		<script src="libs/jquery/tagit/tag-it.js"></script>
-		<!-- Component -->
-		<script src="libs/ejs.js"></script>
-		<script src="libs/flashjs/component.js"></script>
-		<script src="libs/flashjs/component-extend-ejs.js"></script>
-		<script src="libs/flashjs/component-extend-emitter.js"></script>
-		<!-- easing -->
-		<script type="text/javascript" src="libs/jquery/jquery.easing.1.3.js"></script>
-		<!--  SexyLightbox -->
-		<script type="text/javascript" src="libs/jquery/sexylightbox.v2.3/sexylightbox.v2.3.jquery.js"></script>
 		<!-- loading -->
 		<script type="text/javascript" src="libs/jquery/loading.16.4/jquery.loading.1.6.4.js"></script>
 		
+		<script type="component" source="entriesCanvas" id="entriesCanvas"></script>
+		<script type="component" source="inputBox" id="inputBox"></script>
+		<script type="component" source="resultsList" id="resultsList"></script>
 		
-		<!-- techbrowser  -->
-		<script src="app.js"></script>
+		<script src="./componentjs/component.js"></script>
+		<script src="./componentjs/component-extend-emitter.js"></script>
+		<script src="./appContext.js"></script>
+		
+		<script>
+			Component.overrideCurrent();
+			
+			var _self = this;
+			var animated = false;
+			var normalizationTimeoutId = null;
+			var appContext = new AppContext();
+			
+			this.inputBox = $("#inputBox")[0];
+			
+			this.inputBox.on("autocomplete", function(event){
+				appContext.getTag(event.request,event.callback);
+			});
+			
+			this.inputBox.on("save", function(entry){
+				appContext.saveEntry(entry.url, entry.tags, function(response){
+					if(response != "OK") {
+						entry.errorHandler("failed to save entry due "+response);
+						return;
+					}
+					
+					this.inputBox.setTags(entry.tags);
+					this.inputBox.emit("query", entry.tags);
+				})
+			});
+			
+			this.inputBox.on("urlInputComplete", function(terms){
+				_self.inputBox.setLoading(true);
+				appContext.getTags(terms, function(response){
+					_self.inputBox.setLoading(false);
+					if(response.length > 0)
+						_self.inputBox.setTags(response);
+				});
+			});
+			
+			this.inputBox.on("query", function(terms){
+				appContext.query(terms, function(response){
+					$("#resultsList").fadeOut("fast",function(){
+						
+						$("#resultsList").empty();
+			        	if(response.length){
+			        		if(normalizationTimeoutId)
+			        			clearTimeout(normalizationTimeoutId);
+			        		
+			        		if(!animated) {
+			        			$("#inputBox").animate({ 
+								    top: "0%",
+								    marginTop: "250px",
+								  }, 
+								  200);
+			        			
+			        			$(".ui-autocomplete").animate({ 
+								    top: "290px"
+								  }, 
+								  500);
+			        			
+			        			$("#entriesCanvas").animate({ 
+								    top: "0%",
+								    marginTop: "0px",
+								  }, 
+								  200);
+			        			
+								$("#resultsList").animate({ 
+									marginTop: "0px"
+								  }, 200 );
+								
+								animated = true;
+			        		}
+			        		
+			        		
+							var resultsList = $("#resultsList");
+							for(var i=0;i<response.length;i++){
+								resultsList[0].addItem(response[i]);
+							}
+							
+							
+						} else {
+							normalizationTimeoutId = setTimeout(function(){
+								if(animated) {
+									$("#entriesCanvas").animate({ 
+									    top: "50%",
+									    marginTop: "-221px"
+									  }, 200 );
+									
+									$("#inputBox").animate({ 
+									    top: "50%",
+									    marginTop: "10px"
+									  }, 200 );
+									
+									$(".ui-autocomplete").animate({ 
+									    top: "530px"
+									  }, 
+									  500);
+									
+									$("#resultsList").animate({ 
+										marginTop: "221px"
+									  }, 200 );
+									animated = false;
+								}
+							}, 2000);
+						}
+			        	
+			        	$("#resultsList").fadeIn("fast");
+					});
+				});
+			});
+			
+			var appSocialContext = new AppSocialContext();
+			appSocialContext.hookToSocialLogins();
+			
+		</script>
 		
 		<!-- analytics -->
 		<script type="text/javascript">
 
 		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', app.googleAnalyticsKey]);
+		  _gaq.push(['_setAccount', appContext.googleAnalyticsKey]);
 		  _gaq.push(['_trackPageview']);
 		
 		  (function() {
