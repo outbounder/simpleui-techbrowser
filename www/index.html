@@ -25,7 +25,7 @@
 		
 		<script type="component" source="entriesCanvas" id="entriesCanvas"></script>
 		<script type="component" source="inputBox" id="inputBox"></script>
-		<script type="component" source="resultsList" id="resultsList"></script>
+		
 		
 		<script src="./componentjs/component.js"></script>
 		<script src="./componentjs/component-extend-emitter.js"></script>
@@ -70,7 +70,7 @@
 				appContext.query(terms, function(response){
 					$("#resultsList").fadeOut("fast",function(){
 						
-						$("#resultsList").empty();
+						$("#resultsList")[0].clearItems();
 			        	if(response.length){
 			        		if(normalizationTimeoutId)
 			        			clearTimeout(normalizationTimeoutId);
@@ -94,7 +94,7 @@
 								  200);
 			        			
 								$("#resultsList").animate({ 
-									marginTop: "0px"
+									marginTop: "20px"
 								  }, 200 );
 								
 								animated = true;
@@ -126,11 +126,13 @@
 									  500);
 									
 									$("#resultsList").animate({ 
-										marginTop: "221px"
+										marginTop: "30px"
 									  }, 200 );
 									animated = false;
 								}
 							}, 2000);
+							
+							$("#resultsList")[0].setEmpty();
 						}
 			        	
 			        	$("#resultsList").fadeIn("fast");
