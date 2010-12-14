@@ -68,7 +68,11 @@
 			});
 			
 			this.inputBox.on("query", function(terms){
-				history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX  
+				if(typeof history.pushState === "function")
+					history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX
+				else
+					window.location.hash = "#/"+terms.join('/');
+				
 				appContext.query(terms, function(response){
 					$("#resultsList").fadeOut("fast",function(){
 						
