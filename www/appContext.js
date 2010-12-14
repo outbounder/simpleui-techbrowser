@@ -1,14 +1,13 @@
 var AppContext =  function() {
-	var endpoint = "http://api-techbrowser.appspot.com/";
+	var endpoint = "http://api-techbrowser.appspot.com/",
 		googleAnalyticsKey = 'UA-11129132-4',
 		lastQuery = null,
 		timeout = null;
 	
 	this.query = function(terms, callback) {
-		if(terms == lastQuery)
+		if(terms.join(" ") == lastQuery)
 			return;
-		
-		lastQuery = terms;
+		lastQuery = terms.join(" ");
 		ajaxCall = $.getJSON(endpoint+"search.jsonp?q="+terms.join(" ")+"&callback=?", function(response) {
 			callback(response);
 	    });

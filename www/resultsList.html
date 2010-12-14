@@ -1,12 +1,29 @@
-<div class="resultsList">
+<div class="resultsList" id="resultsList">
 	<link rel="stylesheet" href="css/resultsList.css" type="text/css" />
 	
 	<script>
+	//<![CDATA[
+	    this.items = [];
+	    
 		this.addItem = function(itemData) {
 			// Creating a new result object and firing its toString method:
 			var item = Component.fromPath("resultsItem");
 			item.setData(itemData);
 			this.appendChild(item);
+			this.items.push(item);
+			if(this.items.length > 1)
+				$(item).addClass("resultItemOffset");
 		}
+		
+		this.clearItems = function() {
+			this.items = []
+			$(this).empty();
+		}
+		
+		this.setEmpty = function() {
+			this.clearItems();
+			$(this).append("<h2 class='resultItem'>no entries found</h2>");
+		}
+	//]]>
 	</script>
 </div>
