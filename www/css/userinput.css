@@ -19,53 +19,37 @@
 	margin:0;
 }
 .ui-autocomplete-loading {
-	background: white url("../img/ui-anim_basic_16x16.gif") right bottom no-repeat;
+	background: url("../images/suggestTagsLoader.gif") right center no-repeat;
 }
 
-ul.tagit li div.tagit-choice-value {
-	float: left;
-}
-
-ul.tagit {
-	width: 100%;
+.tagit {
 	background-color: #b2bcc2;
-	border-width:1px;
-	border-color:#b2bcc2;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	border-radius:10px;
+	padding: 5px;
+	margin: 5px;
 }
 
-ul.tagit li {
+.tagit .tagit-choice {
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
-	float: left;
+	border-radius:5px;
 	padding:2px 5px 2px 0;
-}
-ul.tagit li.tagit-choice {
 	background-color:#DEE7F8;
 	border:1px solid #CAD8F3;
-	padding:2px 4px 3px;
 	color: #000000;
+	float: left;
 }
-ul.tagit li.tagit-choice:hover {
+
+.tagit .tagit-choice .value {
+	float: left;
+}
+
+.tagit .tagit-choice:hover {
 	background-color:#bbcef1;
 	border-color:#6d95e0;
 	color: #000000;
 }
-ul.tagit li.tagit-new {
-	padding:2px 4px 3px;
-	padding:2px 4px 1px;
-	padding:2px 4px 1px 0;
-}
 
-ul.tagit li.tagit-choice input {
-	display:block;
-	float:left;
-	margin:2px 5px 2px 0;
-}
-
-ul.tagit li.tagit-choice a.close {
+.tagit .tagit-choice a.close {
 	color:#777777;
 	cursor:pointer;
 	font-size:12px;
@@ -73,31 +57,30 @@ ul.tagit li.tagit-choice a.close {
 	outline:medium none;
 	padding:2px 0 2px 3px;
 	text-decoration:none;
+	float: left;
 }
 
 .inputFrame {
 	padding: 5px;
-	margin: 5px;
 }
 
 .input {
-	-moz-box-sizing:border-box;
-	border: none;	
-	margin:0;
-	padding:0;
-	width:100%;
+	border: solid;	
 	border-width:1px;
 	border-color:#000;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
 	border-radius:10px;
+	
+	margin: 0px;
+	padding:10px;
+	width:389px;
+	
 	color:#000;
 	background-color:#b2bcc2;
 }
 
 .userInput {
-	border-width:1px;
-	border-color:#b2bcc2;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
 	border-radius:10px;

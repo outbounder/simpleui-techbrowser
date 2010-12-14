@@ -13,11 +13,11 @@
 		};
 		element.emit = function(eventName, eventData) {
 			for(var i in this.$eventHandlers)
-				if(this.$eventHandlers[i].name == eventName)
-					if(!this.$eventHandlers[i].handle(eventData))
-						return false;
-			
-			return true;
+				if(this.$eventHandlers[i].name == eventName) {
+					var returnValue = this.$eventHandlers[i].handle(eventData);
+					if(typeof returnValue != "undefined")
+						return returnValue;
+				}
 		};
 		element.stopListen = function(eventName, handler) {
 			for(var i in this.$eventHandlers)

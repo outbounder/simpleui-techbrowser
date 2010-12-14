@@ -6,16 +6,20 @@
 	</h2>
 	
 	<script>
+	//<![CDATA[
 		this.setData = function(response) {
+			
 			$("#link", this).attr("href", response.url).text(response.url);
 			$("#favicon", this).attr("src", "http://"+response.url.match(/:\/\/(.[^/]+)/)[1]+"/favicon.ico" );
 			$("#favicon", this)[0].onerror = function() {
 				$(this).hide();
 			}
-			if(typeof response.tags !== "undefined")
-				$("#tags", this).text(response.tags.join(" "));
+			
+			if(typeof response.tagsRaw !== "undefined")
+				$("#tags", this).text(response.tagsRaw.join(" "));
 			else
 				$("#tags", this).hide();
 		}
+	//]]>
 	</script>
 </div>

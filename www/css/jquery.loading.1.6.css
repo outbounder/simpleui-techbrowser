@@ -1,7 +1,6 @@
 /* all this loading css is optional style sugar;
    it'll work fine without it. just not look pretty. */
 .loading {
-    background: #FFF;
     color: black;
     font-weight: bold;
     padding: 3px;

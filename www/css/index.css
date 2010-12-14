@@ -1,3 +1,25 @@
 .body {
 	background-color: #677a87;
 }
+
+.inputboxCanvas
+{
+	position:absolute;
+	width:800px;
+	height:443px;
+	top: 50%;
+	left: 50%;
+	margin-top: -221px; /*set to a negative number 1/2 of your height*/
+	margin-left: -400px; /*set to a negative number 1/2 of your width*/
+	/* background-image: url('../images/background.png'); */
+}
+
+.inputboxFrame
+{
+	position: absolute;
+	top: 50%;
+	margin-top: 10px;
+	left: 50%;
+	margin-left: -250px;
+	width: 530px;
+}

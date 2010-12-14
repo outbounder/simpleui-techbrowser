@@ -1,7 +1,10 @@
  <div class="inputboxFrame">
  	<link rel="stylesheet" href="css/inputbox.css" type="text/css" />
  	
- 	<script type="component" source="entriesCanvas" />
+	<a href="#" id="link" class="link">http://something</a>
+	<a href="javascript:void(0)" class="cancel" id="cancel">cancel</a>
+	<div style="clear:both" />
+	
  	<script type="component" source="userInput" id="userInput" class="userInput"/>
  	
  	<img src="images/add_normal.png" alt="add" id="addButton" class="addButton">
@@ -34,6 +37,9 @@
  		</script>
  	</img>
  	
+ 	<div style="clear:both" />
+ 	<div class="error" id="error"></div> 
+ 	
  	<script>
  	// <![CDATA[
  	    var _self = this;
@@ -41,41 +47,96 @@
 		var addbuttonPossition = {x: 580, y:219};
 		this.addButton.setData(addbuttonPossition);
 		
+		$("#error", this).hide();
+		
+		$(this.cancel).click(function(){
+			_self.setMode("search");
+		});
+		
+		this.setError = function(error){
+			$("#error", this).show();
+			$("#error", this).text(error);
+		}
+		
+		this.clearError = function() {
+			$("#error", this).hide();
+		}
+		
 		$(this.addButton).click(function() {
-			if(_self.mode == "input") {
-				_self.emit("save",{url: _self.userInput.getUrl(), tags: _self.userInput.getValue()});
-				_self.setMode("search");
+			var url = $(_self.link).attr('href');
+			var tags = _self.userInput.getTags();
+			if(tags.length == 0) {
+				_self.setError("can not save url without tags");
+				return;
 			}
+			
+			_self.setMode("search");
+			var result = _self.emit("save", {url: url, tags: tags, errorHandler:function(error){
+				_self.setError(error);
+			}});
 		});
 		
-		this.userInput.on("changed",function() {
-			var value = _self.userInput.getValue();
-			if(value.indexOf("http://") != -1) {
-				if(value.indexOf(".") != -1)
-					_self.emit("urlInput", value);
-				if(this.mode != "input")
-					_self.setMode("input");
-			}
-			else if(this.mode != "input")
-				_self.emit("query", value);
+		this.userInput.on("inputChanged",function() {
+			_self.clearError();
+			
+			if(_self.mode == "input") // do nothing on change due current entry input process
+				return; 
+
+			var value = _self.userInput.getInputValue();
+			var tags = _self.userInput.getTags();
+			if(value != "")
+				tags.push(value);
+			
+			_self.emit("query", tags);
 		});
 		
-		this.userInput.on("urlInputComplete",function(){
-			_self.emit("urlInput", value);
-		})
+		this.userInput.on("urlInputComplete",function(value){
+			_self.setMode("input");
+			_self.emit("urlInputComplete", value);
+		});
+		
+		this.userInput.on("autocomplete", function(event){
+			_self.emit("autocomplete", event);
+		});
 		
 		this.closeAutosuggestBox = function() {
 			this.userInput.closeAutosuggestBox();
 		}
+		
 		this.showAutosuggestBox = function(){
 			this.userInput.showAutosuggestBox();
 		}
-		this.setEntryTags = function(tags) {
-			this.userInput.setValue(tags.join(" "));
+		
+		this.setTags = function(tags) {
+			this.userInput.setTags(tags);
 		}
+		
 		this.setMode = function(mode){
+			this.clearError();
 			this.mode = mode;
-			this.userInput.setMode(mode);
+			if(mode == "input") {
+				var value = this.userInput.getInputValue();
+				$(_self.link).text(value);
+				$(_self.link).attr('href',value);
+				
+				
+				this.userInput.setInputHintValue("type to add additional tags");
+				this.userInput.clearAll();
+				
+				$(_self.link).show();
+				$(_self.cancel).show();
+				$(_self.addButton).show();
+			} else if(mode == "search"){
+				this.userInput.setInputHintValue("type here to search entries or type/paste url to add it");
+				$(_self.link).hide();
+				$(_self.cancel).hide();
+				$(_self.addButton).hide();
+				this.userInput.clearAll();
+			}
+		}
+		
+		this.setLoading = function(value){
+			this.userInput.setLoading(value);
 		}
 		
 		this.setMode("search");
