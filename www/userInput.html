@@ -75,7 +75,7 @@
 		taginput.keyup(function(event){
 			var typed = _self.getInputValue();
 			
-			if(typed.indexOf("http:") == -1) {
+			if(typed.indexOf("http") == -1) {
 
 				// Comma/Space/Enter are all valid delimiters for new tags.
 				if (event.which == COMMA || event.which == SPACE || event.which == ENTER) {
