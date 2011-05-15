@@ -28,6 +28,10 @@
 	    
 		$(this).click(function(e){
 			if (e.target.tagName == 'A') {
+				
+				if($(e.target).parent()[0].data && $(e.target).parent()[0].data.notifyOnRemove)
+					_self.emit("tagRemove",  $(".value", $(e.target).parent()).text());
+				
 				// Removes a tag when the little 'x' is clicked.
 				// Event is binded to the UL, otherwise a new tag (LI > A) wouldn't have this event attached to it.
 				$(e.target).parent().remove();
@@ -109,6 +113,7 @@
 		taginput.keyup(function(event){
 			if(event.which == CTRL)
 				ctrlDown = false;
+			_self.emit("keyhit");
 		});
 		
 		taginput.autocomplete({
@@ -144,13 +149,15 @@
 			return is_new;
 		}
 		
-		function create_choice (value){
+		function create_choice (value, choiceData){
 			var el = "";
 			el  = "<div class=\"tagit-choice\">\n";
 			el += "<div class='value'>"+value+"</div>\n";
 			el += "<a class=\"close\">x</a>\n";
 			el += "</div>\n";
-			$("#end",tags).before($(el));
+			el = $(el);
+			el[0].data = choiceData;
+			$("#end",tags).before(el);
 			taginput.val("");
 			tags.show();
 		}
@@ -189,10 +196,13 @@
 			return result;
 		}
 		
-		this.setTags = function(tags) {
+		this.setTags = function(tags, notifyOnRemove) {
 			this.clearTags();
 			for(var p in tags)
-				create_choice(tags[p]);
+				if(notifyOnRemove)
+					create_choice(tags[p], {notifyOnRemove: true});
+				else
+					create_choice(tags[p]);
 		}
 		
 		this.appendTags = function(tags) {

@@ -5,7 +5,7 @@
 	<a href="javascript:void(0)" class="cancel" id="cancel">cancel</a>
 	<div style="clear:both" />
 	
- 	<script type="component" source="userInput" id="userInput" class="userInput"/>
+ 	<script type="component" source="userInput.html" id="userInput" class="userInput"/>
  	
  	<img src="images/add_normal.png" alt="add" id="addButton" class="addButton">
  		<script>
@@ -76,6 +76,10 @@
 			}});
 		});
 		
+		this.userInput.on("keyhit", function() {
+			_self.emit("keyhit");
+		});
+		
 		this.userInput.on("inputChanged",function() {
 			_self.clearError();
 			
@@ -99,6 +103,12 @@
 			_self.emit("autocomplete", event);
 		});
 		
+		this.userInput.on("tagRemove", function(tag) {
+			if(_self.mode == "input") {
+				_self.emit("tagRemove", tag);
+			}
+		});
+		
 		this.closeAutosuggestBox = function() {
 			this.userInput.closeAutosuggestBox();
 		}
@@ -107,8 +117,12 @@
 			this.userInput.showAutosuggestBox();
 		}
 		
-		this.setTags = function(tags) {
-			this.userInput.setTags(tags);
+		this.setTags = function(tags, notifyOnRemove) {
+			this.userInput.setTags(tags, notifyOnRemove);
+		}
+		
+		this.getTags = function(tags) {
+			return this.userInput.getTags();
 		}
 		
 		this.setMode = function(mode){
