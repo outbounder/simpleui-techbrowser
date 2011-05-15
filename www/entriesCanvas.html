@@ -51,7 +51,7 @@
  			
  			this.render = function(context) {
  				context.drawImage(this.image, this.data.x, this.data.y);
- 				if(typeof this.data.number != "undefined") {
+ 				if(typeof this.data.number != "undefined" && this.data.number != null) {
  					var textWidth = context.measureText(this.data.number).width;
  					context.fillText(this.data.number,this.getCenterX()-textWidth/2,this.getCenterY());
  				}

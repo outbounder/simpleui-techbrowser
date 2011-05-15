@@ -3,167 +3,49 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Techbrowser Powered Search</title>
+		
 		<link href="css/reset.css" rel="stylesheet" type="text/css"  />
 		<link href="css/index.css" rel="stylesheet" type="text/css" />
-		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
 		<link href="css/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
 		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+		
+		<script type="text/javascript" src="libs/jquery/loading.16.4/jquery.loading.1.6.4.js"></script>
+		
+		<script src="libs/component.min.js"></script>
+		
+		<script src="AppContext.js"></script>
+		<script src="IndexAnimation.js"></script>
+		<script src="IndexController.js"></script>
+		
+		<script src="graphView/Stage.js"></script>
+		<script src="graphView/Node.js"></script>
+		<script src="graphView/Helper.js"></script>
 	</head>
 
 	<body class="body">
 		<div class="extension">
 			<a href="http://wizartworx.com/simplechromeaddon-techbrowser.crx">chrome extension</a>
 		</div>
+		<div>
+			<a href="javascript: void(0)" id="searchResultsToggleBtn">Search results toggle</a>
+		</div>
 		
-		<!-- jquery -->    
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
-		<!-- loading -->
-		<script type="text/javascript" src="libs/jquery/loading.16.4/jquery.loading.1.6.4.js"></script>
-		
-		<script type="component" source="entriesCanvas" id="entriesCanvas"></script>
-		<script type="component" source="inputBox" id="inputBox"></script>
-		
-		
-		<script src="./componentjs/component.js"></script>
-		<script src="./componentjs/component-extend-emitter.js"></script>
-		<script src="./appContext.js"></script>
+		<script type="component" source="entriesCanvas.html" id="entriesCanvas"></script>
+		<script type="component" source="inputBox.html" id="inputBox"></script>
+		<script type="component" source="resultsList.html"></script>
+		<script type="component" source="graphView.html" id="graphView" style="display: none"></script>
 		
 		<script>
-			Component.overrideCurrent();
+			Component.process(document.body);
 			
 			var _self = this;
-			var animated = false;
-			var normalizationTimeoutId = null;
 			var appContext = new AppContext();
-			
-			this.inputBox = $("#inputBox")[0];
-			
-			this.inputBox.on("autocomplete", function(event){
-				appContext.getTag(event.request,event.callback);
-			});
-			
-			this.inputBox.on("save", function(entry){
-				appContext.saveEntry(entry.url, entry.tags, function(response){
-					if(response != "OK") {
-						entry.errorHandler("failed to save entry due "+response);
-						return;
-					}
-					
-					this.inputBox.setTags(entry.tags);
-					this.inputBox.emit("query", entry.tags);
-				})
-			});
-			
-			this.inputBox.on("urlInputComplete", function(terms){
-				_self.inputBox.setLoading(true);
-				appContext.getTags(terms, function(response){
-					_self.inputBox.setLoading(false);
-					if(response.length > 0)
-						_self.inputBox.setTags(response);
-				});
-			});
-			
-			this.inputBox.on("query", function(terms){
-				if(typeof history.pushState === "function")
-					history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX
-				else
-					window.location.hash = "#/"+terms.join('/');
-				
-				appContext.query(terms, function(response){
-					$("#resultsList").fadeOut("fast",function(){
-						
-						$("#resultsList")[0].clearItems();
-			        	if(response.length){
-			        		
-			        		if(response.length > 1)
-			        			$("#entriesCanvas")[0].setCircleData(0,'number',response.length+" matches");
-			        		
-			        		if(normalizationTimeoutId)
-			        			clearTimeout(normalizationTimeoutId);
-			        		
-			        		if(!animated) {
-			        			$("#inputBox").animate({ 
-								    top: "0%",
-								    marginTop: "250px",
-								  }, 
-								  200);
-			        			
-			        			$(".ui-autocomplete").animate({ 
-								    top: "290px"
-								  }, 
-								  500);
-			        			
-			        			$("#entriesCanvas").animate({ 
-								    top: "0%",
-								    marginTop: "0px",
-								  }, 
-								  200);
-			        			
-								$("#resultsList").animate({ 
-									marginTop: "20px"
-								  }, 200 );
-								
-								animated = true;
-			        		}
-			        		
-			        		
-							var resultsList = $("#resultsList");
-							for(var i=0;i<response.length;i++){
-								resultsList[0].addItem(response[i]);
-							}
-							
-							
-						} else {
-							normalizationTimeoutId = setTimeout(function(){
-								if(animated) {
-									$("#entriesCanvas").animate({ 
-									    top: "50%",
-									    marginTop: "-221px"
-									  }, 200 );
-									
-									$("#inputBox").animate({ 
-									    top: "50%",
-									    marginTop: "10px"
-									  }, 200 );
-									
-									$(".ui-autocomplete").animate({ 
-									    top: "530px"
-									  }, 
-									  500);
-									
-									$("#resultsList").animate({ 
-										marginTop: "30px"
-									  }, 200 );
-									animated = false;
-								}
-							}, 2000);
-							
-							$("#resultsList")[0].setEmpty();
-						}
-			        	
-			        	$("#resultsList").fadeIn("fast");
-					});
-				});
-			});
-			
-			window.onpopstate = function(event) {
-				if(typeof event.terms != 'undefined') {
-					this.inputBox.setTags(event.terms);
-					this.inputBox.emit("query", event.terms);
-				}
-			}
-			
-			var hash = window.location.hash;
-			if(hash.length > 0) {
-				terms = hash.substr(2).split("/");
-				this.inputBox.setTags(terms);
-				this.inputBox.emit("query", terms);
-			}
-			
-			/*var appSocialContext = new AppSocialContext();
-			appSocialContext.hookToSocialLogins();*/
-			
+			var indexAnimation = new IndexAnimation();
+			var indexController = new IndexController(appContext, indexAnimation);
+			indexController.onInit(this);
 		</script>
 		
 		<!-- analytics -->

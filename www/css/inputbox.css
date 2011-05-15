@@ -1,33 +1,33 @@
-.inputboxFrame
+.inputboxFrame .inputboxFrame
 {
 }
 
-.addLink {
+.inputboxFrame .addLink {
 }
 
-.addButton 
+.inputboxFrame .addButton 
 {
 	float: right;
 	margin-top: -10px;
 }
 
-.userInput {
+.inputboxFrame .userInput {
 	float: left;
 	width: 420px;
 }
 
-.link {
+.inputboxFrame .link {
 	margin: 10px;
 	float: left;
 	max-width: 350px;
 	overflow: hidden;
 }
 
-.cancel {
+.inputboxFrame .cancel {
 	margin: 10px;
 	float: left;
 }
 
-.error {
+.inputboxFrame .error {
 	color: #a00;
 }

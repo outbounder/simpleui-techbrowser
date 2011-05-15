@@ -24,6 +24,15 @@
 	width: 530px;
 }
 
+.resultsList
+{
+	position: absolute;
+	top: 50%;
+	margin-top: 170px;
+	left: 50%;
+	margin-left: -400px;
+}
+
 .extension a {
 	color: #fff;
 }

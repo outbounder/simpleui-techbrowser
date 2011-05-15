@@ -5,14 +5,17 @@
 	//<![CDATA[
 	    this.items = [];
 	    
+	    this.setData = function(items) {
+	    	this.clearItems();
+	    	for(var i = 0; i<items.length; i++)
+	    		this.addItem(items[i]);
+	    }
+	    
 		this.addItem = function(itemData) {
-			// Creating a new result object and firing its toString method:
-			var item = Component.fromPath("resultsItem");
+			var item = Component.fromPath("resultsItem.html");
 			item.setData(itemData);
 			this.appendChild(item);
 			this.items.push(item);
-			if(this.items.length > 1)
-				$(item).addClass("resultItemOffset");
 		}
 		
 		this.clearItems = function() {
