@@ -32,7 +32,10 @@ var IndexAnimation = function() {
 			if(this.animationTimeoutId)
 				clearTimeout(this.animationTimeoutId);
 			var _self = this;
-			this.animationTimeoutId = setTimeout(function(){ _self.pendingAnimationFunc(); }, this.animationTimeout);
+			this.animationTimeoutId = setTimeout(function(){ 
+				_self.pendingAnimationFunc(); 
+				_self.pendingAnimationFunc = null; 
+			}, this.animationTimeout);
 		}
 	};
 	
@@ -44,7 +47,7 @@ var IndexAnimation = function() {
 		  200);
 		
 		$(".ui-autocomplete").animate({ 
-		    top: "290px"
+		    top: "360px"
 		  }, 
 		  500);
 		
@@ -72,7 +75,7 @@ var IndexAnimation = function() {
 		  }, 200 );
 		
 		$(".ui-autocomplete").animate({ 
-		    top: "530px"
+		    top: "550px"
 		  }, 
 		  500);
 		

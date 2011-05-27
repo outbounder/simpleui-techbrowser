@@ -33,7 +33,25 @@
 	margin-left: -400px;
 }
 
-.extension a {
-	color: #fff;
+.topTabButton {
+	margin: 20px;
+	background-color: #B2BCC2;
+	border: none;
+	color: #000;
+	-moz-border-radius:18px;
+	-webkit-border-radius:18px;
+	border-radius:18px;
+	padding: 10px;
+	text-decoration:none;
 }
-	
+
+.topTabButton:hover {
+	background-color: #fff;
+	color: #000;
+}
+
+.menubar {
+	margin: 20px;
+	top: 0px;
+	position: absolute;
+}
