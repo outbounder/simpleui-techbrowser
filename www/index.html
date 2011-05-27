@@ -26,11 +26,9 @@
 	</head>
 
 	<body class="body">
-		<div class="extension">
-			<a href="http://wizartworx.com/simplechromeaddon-techbrowser.crx">chrome extension</a>
-		</div>
-		<div>
-			<a href="javascript: void(0)" id="searchResultsToggleBtn">Search results toggle</a>
+		<div class="menubar">
+			<a href="http://wizartworx.com/simplechromeaddon-techbrowser.crx" class="topTabButton">chrome extension</a>
+			<a href="javascript: void(0)" id="searchResultsToggleBtn" class="topTabButton">Search results toggle</a>
 		</div>
 		
 		<script type="component" source="entriesCanvas.html" id="entriesCanvas"></script>
@@ -40,7 +38,6 @@
 		
 		<script>
 			Component.process(document.body);
-			
 			var _self = this;
 			var appContext = new AppContext();
 			var indexAnimation = new IndexAnimation();

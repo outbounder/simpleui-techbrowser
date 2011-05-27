@@ -44,15 +44,15 @@ var Node = function(data, image){
 		node.edges.push(this);
 	};
 
-	this.getX = function() { return this.data.x; };
-	this.getY = function() { return this.data.y; };
+	this.getX = function() { return this.data.x-this.image.width/2; };
+	this.getY = function() { return this.data.y-this.image.height/2; };
 	this.getWidth = function() { return this.image.width; };
 	this.getHeight = function() { return this.image.height; };
 	this.getCenterX = function() { return this.data.x; }; 
 	this.getCenterY = function() { return this.data.y; };
 	this.checkCollision = function(x,y) {
-		if( x > this.data.x-this.image.width/2 && x < this.data.x+this.image.width && 
-			y > this.data.y-this.image.height/2 && y < this.data.y+this.image.height) {
+		if( x > this.data.x-this.image.width/2 && x < this.data.x+this.image.width/2 && 
+			y > this.data.y-this.image.height/2 && y < this.data.y+this.image.height/2) {
 			return true;
 		}
 		return false;

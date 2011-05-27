@@ -8,17 +8,16 @@ var IndexController = function(appContext, indexAnimation) {
 	
 	this.onInit = function(indexView) {
 		this.indexView = indexView;
-		
-		var inputBox = indexView.inputBox;
+		var inputBox = $("#inputBox")[0];
 		
 		inputBox.on("tagRemove", function(tag){
-			appContext.recordTagMismatch(tag, inputBox.getTags(), function(){
+			/* appContext.recordTagMismatch(tag, inputBox.getTags(), function(){
 				// do nothing
-			});
+			}); */
 		});
 		
 		inputBox.on("autocomplete", function(event){
-			appContext.getTag(event.request,event.callback);
+			appContext.queryTags(event.request,event.callback);
 		});
 		
 		inputBox.on("save", function(entry){
@@ -50,27 +49,28 @@ var IndexController = function(appContext, indexAnimation) {
 			_self.runEntriesQuery(terms);
 		});
 		
-		window.onpopstate = function(event) {
-			if(typeof event.terms != 'undefined') {
-				inputBox.setTags(event.terms);
-				_self.runEntriesQuery(event.terms);
-			}
-		};
+		if(window.onpopstate)
+			window.onpopstate = function(event) {
+				if(typeof event.terms != 'undefined') {
+					inputBox.setTags(event.terms);
+					_self.runEntriesQuery(event.terms);
+				}
+			};
 		
 		var hash = window.location.hash;
 		if(hash.length > 0) {
-			terms = hash.substr(2).split("/");
+			terms = hash.substr(1).split(" ");
 			inputBox.setTags(terms);
 			_self.runEntriesQuery(terms);
 		}
-		
+
 		$("#searchResultsToggleBtn").click(function(){
 			if(_self.searchResultsMode == "list") {
 				$("#resultsList").fadeOut("fast",function(){
 					$("#entriesCanvas").fadeOut("fast", function(){
 						if(_self.currentResults.length) {
-							appContext.queryTags(_self.currentTerms, function(tags){
-								$("#graphView")[0].setData(_self.currentResults, tags, _self.currentTerms);
+							appContext.findRelatedTags(_self.currentTerms, function(relatedTags){
+								$("#graphView")[0].setData(_self.currentResults, relatedTags, _self.currentTerms);
 								$("#graphView").fadeIn();
 								indexAnimation.animateAbove();
 							});
@@ -102,11 +102,12 @@ var IndexController = function(appContext, indexAnimation) {
 		});
 	};
 	
-	this.runEntriesQuery = function(terms) {
+	this.runEntriesQuery = function(terms,withRelatedTags) {
+		hash = "#"+terms.join(" ");
 		if(typeof history.pushState === "function")
-			history.pushState({terms: terms}, "TechbrowserSearch", "#/"+terms.join("/")); // XXX
+			history.pushState({terms: terms}, "TechbrowserSearch", hash);
 		else
-			window.location.hash = "#/"+terms.join('/');
+			window.location.hash = hash;
 		
 		this.currentTerms = terms;
 		appContext.queryEntries(terms, function(response){
@@ -114,18 +115,19 @@ var IndexController = function(appContext, indexAnimation) {
 			
 			if(_self.searchResultsMode == "list")
 				_self.handleQueryResponseAsList(response);
-			if(_self.searchResultsMode == "graph")
+			if(_self.searchResultsMode == "graph") {
 				_self.handleQueryResponseAsGraph(response);
+			}
 		});
 	};
 	
-	this.handleQueryResponseAsGraph = function(response) {
+	this.handleQueryResponseAsGraph = function(response,relatedTags) {
 		var graphView = $("#graphView")[0];
 		$(graphView).fadeOut("fast",function(){
 			graphView.clear();
 			
 			if(response.length) {
-				appContext.queryTags(_self.currentTerms, function(tags){
+				appContext.findRelatedTags(_self.currentTerms, function(tags){
 					graphView.setData(response, tags, _self.currentTerms);
 					$(graphView).fadeIn("fast");
 					indexAnimation.animateAbove();

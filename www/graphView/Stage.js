@@ -21,12 +21,31 @@ var Stage = function(canvas) {
 		return this.nodes[index];
 	};
 	
+	this.getMousePositionFromEvent = function(e) {
+		var posx = 0;
+		var posy = 0;
+		if (!e) var e = window.event;
+		if (e.pageX || e.pageY) 	{
+			posx = e.pageX;
+			posy = e.pageY;
+		}
+		else if (e.clientX || e.clientY) 	{
+			posx = e.clientX + document.body.scrollLeft
+				+ document.documentElement.scrollLeft;
+			posy = e.clientY + document.body.scrollTop
+				+ document.documentElement.scrollTop;
+		}
+		return {x:posx, y:posy};
+	}
+	
 	var wasInterated = false;
 	canvas.onmousemove = function(e) {
+		var pos = _self.getMousePositionFromEvent(e);
+		
 		var interacted = false;
 		for(var i = 0; i<_self.nodes.length; i++) {
 			var node = _self.nodes[i];
-			if(node.onmousemove && node.checkCollision(e.clientX,e.clientY)) {
+			if(node.onmousemove && node.checkCollision(pos.x,pos.y)) {
 				wasInterated = true;
 				interacted = true;
 				if(node.onmousemove(e))
@@ -40,25 +59,28 @@ var Stage = function(canvas) {
 	};
 	
 	canvas.onmousedown = function(e) {
+		var pos = _self.getMousePositionFromEvent(e);
+		
 		for(var i = 0; i<_self.nodes.length; i++) {
 			var node = _self.nodes[i];
-			if(node.onmousedown && node.checkCollision(e.clientX,e.clientY))
+			if(node.onmousedown && node.checkCollision(pos.x,pos.y))
 					if(node.onmousedown(e))
 						_self.renderOnReady();
 		}
 	};
 	
 	canvas.onmouseup = function(e) {
+		var pos = _self.getMousePositionFromEvent(e);
+		
 		for(var i = 0; i<_self.nodes.length; i++) {
 			var node = _self.nodes[i];
-			if(node.onmouseup && node.checkCollision(e.clientX,e.clientY))
+			if(node.onmouseup && node.checkCollision(pos.x,pos.y))
 					if(node.onmouseup(e))
 						_self.renderOnReady();
 		}
 	};
 	
 	this.render = function() {
-		console.log("rendering "+this.nodes.length);
 		this.context.clearRect(0, 0, this.width, this.height);
 		
 		this.context.beginPath();
