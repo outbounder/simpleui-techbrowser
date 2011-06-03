@@ -1,6 +1,11 @@
 <div class="resultsList" id="resultsList">
 	<link rel="stylesheet" href="css/resultsList.css" type="text/css" />
-	
+	<div id="results"></div>
+	<div id="more" style="display: none" class="resultItem">
+		<div class="resultItemBox moreBox">
+			<a href="javascript: void(0)" class="moreBtn" id="moreBtn">More</a>
+		</div>
+	</div>
 	<script>
 	//<![CDATA[
 	    this.items = [];
@@ -11,22 +16,45 @@
 	    		this.addItem(items[i]);
 	    }
 	    
-		this.addItem = function(itemData) {
+	    this.appendData = function(items) {
+	    	for(var i = 0; i<items.length; i++)
+	    		this.addItem(items[i], true);
+	    }
+	    
+		this.addItem = function(itemData, animate) {
 			var item = Component.fromPath("resultsItem.html");
 			item.setData(itemData);
-			this.appendChild(item);
+			this.results.appendChild(item);
 			this.items.push(item);
+			
+			if(animate) {
+				$(item).css("display", "none");
+				$(item).fadeIn('fast');
+			}
 		}
 		
 		this.clearItems = function() {
 			this.items = []
-			$(this).empty();
+			$(this.results).empty();
 		}
 		
 		this.setEmpty = function() {
 			this.clearItems();
-			$(this).append("<h2 class='resultItem'>no entries found</h2>");
+			$(this.results).append("<h2 class='resultItem'>no entries found</h2>");
 		}
+		
+		this.showMore = function() {
+			$("#more", this).show();
+		}
+		
+		this.hideMore = function() {
+			$("#more", this).hide();
+		}
+		
+		var _self = this;
+		$("#moreBtn",this).click(function(){
+			_self.emit("moreRequested");
+		});
 	//]]>
 	</script>
 </div>

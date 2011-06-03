@@ -1,6 +1,6 @@
 var AppContext =  function() {
 	this.googleAnalyticsKey = 'UA-11129132-4';
-	this.endpoint = /*"http://api-techbrowser.appspot.com/";//*/"http://localhost:8080/";  
+	this.endpoint = "http://api-techbrowser.appspot.com/";//*/"http://localhost:8080/";  
 		
 	this.queryEntries = function(terms, callback) {
 		ajaxCall = $.getJSON(this.endpoint+"entries/query.json?callback=?&tags="+terms.join(" "), function(response) {

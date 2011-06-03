@@ -100,9 +100,21 @@ var IndexController = function(appContext, indexAnimation) {
 			inputBox.setTags(terms);
 			_self.runEntriesQuery(terms);
 		});
+		
+		$("#resultsList")[0].on("moreRequested", function(){
+			googleSearchContext.searchMore(function(results, hasMore){
+				for(var i = 0; i<results.length; i++)
+					results[i].source = "google.com";
+				$("#resultsList")[0].appendData(results);
+				if(hasMore)
+					$("#resultsList")[0].showMore();
+				else
+					$("#resultsList")[0].hideMore();
+			});
+		});
 	};
 	
-	this.runEntriesQuery = function(terms,withRelatedTags) {
+	this.runEntriesQuery = function(terms) {
 		hash = "#"+terms.join(" ");
 		if(typeof history.pushState === "function")
 			history.pushState({terms: terms}, "TechbrowserSearch", hash);
@@ -113,8 +125,17 @@ var IndexController = function(appContext, indexAnimation) {
 		appContext.queryEntries(terms, function(response){
 			_self.currentResults = response;
 			
-			if(_self.searchResultsMode == "list")
-				_self.handleQueryResponseAsList(response);
+			if(_self.searchResultsMode == "list") {
+				
+				googleSearchContext.search(terms, function(googleResults, hasMore){
+					for(var i = 0; i<googleResults.length; i++) {
+						var item = googleResults[i];
+						response[response.length++] = {url: item.unescapedUrl, content: item.content, source: "google.com"};
+					}
+					
+					_self.handleQueryResponseAsList(response, hasMore);
+				});
+			}
 			if(_self.searchResultsMode == "graph") {
 				_self.handleQueryResponseAsGraph(response);
 			}
@@ -139,7 +160,7 @@ var IndexController = function(appContext, indexAnimation) {
 		});
 	};
 	
-	this.handleQueryResponseAsList = function(response) {
+	this.handleQueryResponseAsList = function(response, hasMore) {
 		$("#resultsList").fadeOut("fast",function(){
 			
 			$("#resultsList")[0].clearItems();
@@ -150,7 +171,14 @@ var IndexController = function(appContext, indexAnimation) {
 				resultsList[0].setData(response);
 				indexAnimation.animateUp();
 				
+				if(hasMore)
+					$("#resultsList")[0].showMore();
+				else
+					$("#resultsList")[0].hideMore();
+				
 			} else {
+				$("#resultsList")[0].hideMore();
+				
 				$("#entriesCanvas")[0].setCircleData(0,'number',undefined);
 				$("#resultsList")[0].setEmpty();
 				indexAnimation.animateCenter();

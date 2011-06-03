@@ -17,6 +17,7 @@
 		<script src="libs/component.min.js"></script>
 		
 		<script src="AppContext.js"></script>
+		<script src="googleSearchContext.js"></script>
 		<script src="IndexAnimation.js"></script>
 		<script src="IndexController.js"></script>
 		
@@ -27,7 +28,7 @@
 
 	<body class="body">
 		<div class="menubar">
-			<a href="http://wizartworx.com/simplechromeaddon-techbrowser.crx" class="topTabButton">chrome extension</a>
+			<a href="http://wizartworx.com/simplechromeaddon-techbrowser.crx" class="topTabButton">chrome extension</a> <br />
 			<a href="javascript: void(0)" id="searchResultsToggleBtn" class="topTabButton">Search results toggle</a>
 		</div>
 		
@@ -40,6 +41,7 @@
 			Component.process(document.body);
 			var _self = this;
 			var appContext = new AppContext();
+			var googleSearchContext = new GoogleSearchContext();
 			var indexAnimation = new IndexAnimation();
 			var indexController = new IndexController(appContext, indexAnimation);
 			indexController.onInit(this);

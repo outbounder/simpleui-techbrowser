@@ -34,7 +34,8 @@
 }
 
 .topTabButton {
-	margin: 20px;
+	display: block;
+	margin: 5px;
 	background-color: #B2BCC2;
 	border: none;
 	color: #000;
@@ -43,6 +44,7 @@
 	border-radius:18px;
 	padding: 10px;
 	text-decoration:none;
+	text-align: center;
 }
 
 .topTabButton:hover {
