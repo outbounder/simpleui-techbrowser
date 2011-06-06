@@ -17,7 +17,7 @@
 .resultItem b{ color:#fff; }
 .resultItem a{ color:#eee;border:none;}
 .resultItem p{ line-height:1.5; padding:8px 8px;}
-.resultItem p b{ color:white;}
+.resultItem p b{ color:black;}
 .resultItem > a{ margin-left:20px;}
 
 .resultItem .favicon {
@@ -39,4 +39,13 @@
 .resultsList
 {
 	width: 800px;
+}
+
+.moreBox {
+	text-align: center;
+}
+
+.source {
+	font-size:12px;
+	color: #aaa;
 }
