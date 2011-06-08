@@ -32,6 +32,13 @@
 	overflow: hidden;
 }
 
+.resultItem .linkEditMode {
+	float: left;
+	max-width: 500px;
+	padding: 8px 8px;
+	overflow: hidden;
+}
+
 .resultItemOffset {
 	margin-left: -150px;
 }
@@ -48,4 +55,8 @@
 .source {
 	font-size:12px;
 	color: #aaa;
+}
+
+.resultItem .resultItemMenu {
+	float: right;
 }
