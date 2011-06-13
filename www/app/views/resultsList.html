@@ -1,0 +1,14 @@
+<div class="resultsList" id="resultsList">
+	<link rel="stylesheet" href="css/resultsList.css" type="text/css" />
+	<div id="results"></div>
+	<div id="more" style="display: none" class="resultItem">
+		<div class="resultItemBox moreBox">
+			<a href="javascript: void(0)" class="moreBtn" id="moreBtn">More</a>
+		</div>
+	</div>
+	<script>
+	//<![CDATA[
+		this.controller = new require("/controlelrs/ResultsListController.js")(this);
+	//]]>
+	</script>
+</div>

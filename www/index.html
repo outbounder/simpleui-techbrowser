@@ -15,17 +15,7 @@
 		<script type="text/javascript" src="libs/jquery/loading.16.4/jquery.loading.1.6.4.js"></script>
 		
 		<script src="libs/component.min.js"></script>
-		
-		<script src="AppContext.js"></script>
-		<script src="googleSearchContext.js"></script>
-		<script src="IndexAnimation.js"></script>
-		<script src="IndexController.js"></script>
-		
-		<script src="graphView/Stage.js"></script>
-		<script src="graphView/Node.js"></script>
-		<script src="graphView/Helper.js"></script>
-		
-		<script src="ResultItemController.js"></script>
+		<script src="libs/module.js"></script>
 	</head>
 
 	<body class="body">
@@ -34,26 +24,22 @@
 			<a href="javascript: void(0)" id="searchResultsToggleBtn" class="topTabButton">Search results toggle</a>
 		</div>
 		
-		<script type="component" source="entriesCanvas.html" id="entriesCanvas"></script>
-		<script type="component" source="inputBox.html" id="inputBox"></script>
-		<script type="component" source="resultsList.html"></script>
-		<script type="component" source="graphView.html" id="graphView" style="display: none"></script>
+		<script type="component" source="/views/entriesCanvas.html" id="entriesCanvas"></script>
+		<script type="component" source="/views/inputBox.html" id="inputBox"></script>
+		<script type="component" source="/views/resultsList.html"></script>
+		<script type="component" source="/views/graphView.html" id="graphView" style="display: none"></script>
 		
 		<script>
 			Component.process(document.body);
-			var _self = this;
-			var appContext = new AppContext();
-			var googleSearchContext = new GoogleSearchContext();
-			var indexAnimation = new IndexAnimation();
-			var indexController = new IndexController(appContext, indexAnimation);
-			indexController.onInit(this);
+			this.settings = new require("/model/Settings.js");
+			this.controller = new require("/controllers/Index.js")(this);
 		</script>
 		
 		<!-- analytics -->
 		<script type="text/javascript">
 
 		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', appContext.googleAnalyticsKey]);
+		  _gaq.push(['_setAccount', this.settings.googleAnalyticsKey]);
 		  _gaq.push(['_trackPageview']);
 		
 		  (function() {

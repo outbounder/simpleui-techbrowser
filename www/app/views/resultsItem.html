@@ -22,8 +22,7 @@
 	
 	<script>
 	//<![CDATA[
-		var resultItemController = new ResultItemController();
-		resultItemController.extend(this);
+		this.controller = new require("/controllers/ResultItemController.js")(this);
 	//]]>
 	</script>
 </div>

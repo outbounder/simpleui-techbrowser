@@ -15,10 +15,10 @@
 	border-radius:18px;
 }
 .resultItem b{ color:#fff; }
-.resultItem a{ color:#eee;border:none;}
-.resultItem p{ line-height:1.5; padding:8px 8px;}
-.resultItem p b{ color:black;}
-.resultItem > a{ margin-left:20px;}
+.resultItem a{ color:#eee;border:none; }
+.resultItem p{ padding:8px 8px; }
+.resultItem p b{ color:black; }
+.resultItem > a{ margin-left:20px; }
 
 .resultItem .favicon {
 	float: left;

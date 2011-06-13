@@ -2,7 +2,7 @@ var ResultItemController = function() {
 	
 	this.extend = function(view) {
 		
-		view.setData = function(response) {
+		view.bindTo = function(response) {
 			
 			if(typeof response.source !== "undefined" && response.source !== "api-techbrowser.com") {
 				$("#link", this).attr("href", response.url).text(response.url);
@@ -14,7 +14,15 @@ var ResultItemController = function() {
 			}
 			
 			if(typeof response.tagsRaw !== "undefined") {
-				$(".content", this).html("<b>"+response.tagsRaw.join(" ")+"</b>");
+				var contentHtml = [];
+				for(var k = 0; k<response.tagsRaw.length; k++) {
+					var tagText = response.tagsRaw[k];
+					for(var i = 0; i<response.searchTerms.length; i++)
+						tagText = tagText.replace(response.searchTerms[i],"<b>"+response.searchTerms[i]+"</b>");
+					contentHtml.push(tagText);
+				}
+							
+				$(".content", this).html(contentHtml.join(" "));
 				$(".tagsInputBox", this)[0].setTags(response.tagsRaw);
 			}
 			else
