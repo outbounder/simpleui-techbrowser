@@ -1,20 +1,21 @@
-this.exports = function(view) {
+exports = function(view) {
 	
-	var tagsDB = require("/model/loaders/Tags.js");
-	var entriesDB = require("/model/loaders/Entries.js");
+	var indexAnimation = new require("./IndexAnimation.js")();
+	var tagsDB = require("/app/models/db/Tags.js");
+	var entriesDB = require("/app/models/db/Entries.js");
 	
 	var _self = this;
 	this.searchResultsMode = "list";
 
-	this.indexView = indexView;
-	var inputBox = $("#inputBox")[0];
+	this.indexView = view;
+	var inputBox = $("#inputBox", view)[0];
 	
 	inputBox.on("tagRemove", function(tag){
 		/* appContext.recordTagMismatch(tag, inputBox.getTags(), function(){
 			// do nothing
 		}); */
 	});
-	
+
 	inputBox.on("autocomplete", function(event){
 		tagsDB.queryTags(event.request,event.callback);
 	});
@@ -62,7 +63,7 @@ this.exports = function(view) {
 		}
 	});
 	
-	$("#graphView")[0].on('tagClicked', function(tag){
+	$("#graphView", view)[0].on('tagClicked', function(tag){
 		var terms = inputBox.getTags();
 		terms.push(tag);
 		inputBox.setTags(terms);

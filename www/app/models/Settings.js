@@ -1,4 +1,4 @@
-this.exports = function() {
+exports = function() {
 	this.googleAnalyticsKey = 'UA-11129132-4';
 	this.googleWebSearchSettings = {
 		type		: 'web',
@@ -11,4 +11,4 @@ this.exports = function() {
 			limit: 50
 		}
 	};
-}
+};

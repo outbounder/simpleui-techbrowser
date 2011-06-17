@@ -4,9 +4,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Techbrowser Powered Search</title>
 		
-		<link href="css/reset.css" rel="stylesheet" type="text/css"  />
-		<link href="css/index.css" rel="stylesheet" type="text/css" />
-		<link href="css/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
+		<link href="/app/views/css/reset.css" rel="stylesheet" type="text/css"  />
+		<link href="/app/views/css/index.css" rel="stylesheet" type="text/css" />
+		<link href="/app/views/css/jquery.loading.1.6.css" rel="stylesheet" type="text/css"  />
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -24,22 +24,22 @@
 			<a href="javascript: void(0)" id="searchResultsToggleBtn" class="topTabButton">Search results toggle</a>
 		</div>
 		
-		<script type="component" source="/views/entriesCanvas.html" id="entriesCanvas"></script>
-		<script type="component" source="/views/inputBox.html" id="inputBox"></script>
-		<script type="component" source="/views/resultsList.html"></script>
-		<script type="component" source="/views/graphView.html" id="graphView" style="display: none"></script>
+		<script type="component" source="/app/views/entriesCanvas.html" id="entriesCanvas"></script>
+		<script type="component" source="/app/views/inputBox.html" id="inputBox"></script>
+		<script type="component" source="/app/views/resultsList.html" id="resultsList"></script>
+		<script type="component" source="/app/views/graphView.html" id="graphView" style="display: none"></script>
 		
 		<script>
 			Component.process(document.body);
-			this.settings = new require("/model/Settings.js");
-			this.controller = new require("/controllers/Index.js")(this);
+			document.body.controller = new require("/app/controllers/Index.js")(document.body);
+			var settings = new require("/app/models/Settings.js");
 		</script>
 		
 		<!-- analytics -->
 		<script type="text/javascript">
 
 		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', this.settings.googleAnalyticsKey]);
+		  _gaq.push(['_setAccount', settings.googleAnalyticsKey]);
 		  _gaq.push(['_trackPageview']);
 		
 		  (function() {

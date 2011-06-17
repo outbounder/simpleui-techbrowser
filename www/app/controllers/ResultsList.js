@@ -1,7 +1,7 @@
-this.exports = function(view) {
+exports = function(view) {
 	
-	var entriesLoader = new require("../model/loaders/Entries.js");
-	var webResultsLoader = new require("../model/loaders/GoogleWebResults.js");
+	var entriesLoader = new require("../models/db/Entries.js");
+	var webResultsLoader = new require("../models/db/GoogleWebResults.js");
 	
 	view.renderResults = function(results, hasMore, allCount) {
 		view.clearItems();
@@ -25,7 +25,7 @@ this.exports = function(view) {
 	};
 	
 	view.addItem = function(itemData) {
-		var item = Component.fromPath("/views/resultsItem.html");
+		var item = Component.fromPath("/app/views/resultsItem.html");
 		item.bindTo(itemData);
 		this.results.appendChild(item);
 	};
@@ -37,4 +37,4 @@ this.exports = function(view) {
 	$("#moreBtn", view).click(function(){
 		view.showMoreResults();
 	});
-}
+};

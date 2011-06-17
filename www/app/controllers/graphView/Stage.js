@@ -1,4 +1,4 @@
-var Stage = function(canvas) {
+exports = function(canvas) {
 	var _self = this;
 	
 	this.width = canvas.width;

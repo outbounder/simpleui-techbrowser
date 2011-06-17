@@ -9,14 +9,18 @@ require = _require = function(path,rootDir) {
 		if(typeof this.cache == "undefined")
 			this.cache = {};
 		
-		var compile = function(code) {
+		var compile = function(code, path) {
 			var exportsCode = "var exports = {};\n";
-			var rootDirCode = "var rootDir = '"+rootDir+"';\n";
-			var requireCode = "var require = function(path){ return _require(path, rootDir); };\n";
+			var rootDirCode = "var $rootDir = '"+rootDir+"';\n";
+			var requireCode = "var require = function(path){ return _require(path, $rootDir); };\n";
 			var returnCode = "\nreturn exports;";
 			var funcCode = exportsCode+rootDirCode+requireCode+code+returnCode;
 			var moduleFunc = new Function(funcCode);
-			return moduleFunc.call(this);
+			try {
+				return moduleFunc.call(this);
+			} catch(e) {
+				throw new Error(e.message+" @file: "+path);
+			}
 		};
 		
 		if(this.cache[path]) {
@@ -27,7 +31,7 @@ require = _require = function(path,rootDir) {
 			req.send(null); // null because of FF3.0
 			if (req.status == 200 || req.status == 304 || req.status == 0 ) {
 				this.cache[path] = req.responseText;
-				return compile(this.cache[path]);
+				return compile(this.cache[path], path);
 			} else if(req.status == 404)
 				throw new Error("module not found "+path,path);
 			else
@@ -35,5 +39,8 @@ require = _require = function(path,rootDir) {
 		}
 	};
 	
-	return requireFunc(rootDir+path,rootDir);
+	if(path.indexOf("./") == 0 || path.indexOf("../") == 0)
+		return requireFunc(rootDir+path,rootDir);
+	else
+		return requireFunc(path,rootDir);
 };

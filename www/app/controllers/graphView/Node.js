@@ -1,4 +1,4 @@
-var Node = function(data, image){
+exports = function(data, image){
  			
 	this.ready = false;
 	this.data = data;

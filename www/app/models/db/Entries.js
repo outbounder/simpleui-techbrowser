@@ -1,5 +1,5 @@
 // EntriesLoader, responsible for loading(iterating) through remote entries.
-this.exports = function(settings) {
+this.exports = function() {
 	
 	// additional "entries" loader
 	var googleWebResultsLoader = new require("./GoogleWebResults.js");

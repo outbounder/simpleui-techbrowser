@@ -1,4 +1,4 @@
-this.exports = function(settings) {
+this.exports = function() {
 	var endpoint = settings.techbrowser.endpoint;
 	
 	this.findRelatedTags = function(terms, callback) {

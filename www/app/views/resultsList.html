@@ -1,5 +1,5 @@
-<div class="resultsList" id="resultsList">
-	<link rel="stylesheet" href="css/resultsList.css" type="text/css" />
+<div class="resultsList">
+	<link rel="stylesheet" href="./css/resultsList.css" type="text/css" />
 	<div id="results"></div>
 	<div id="more" style="display: none" class="resultItem">
 		<div class="resultItemBox moreBox">
@@ -8,7 +8,7 @@
 	</div>
 	<script>
 	//<![CDATA[
-		this.controller = new require("/controlelrs/ResultsListController.js")(this);
+		this.controller = new require("/app/controllers/ResultsList.js")(this);
 	//]]>
 	</script>
 </div>

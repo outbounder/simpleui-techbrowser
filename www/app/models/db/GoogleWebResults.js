@@ -1,4 +1,4 @@
-this.exports = function(settings) {
+this.exports = function() {
 	this.googleSettings = settings.googleWebSearchSettings;
 
 	this.queryWebResults = function(terms, handler) {

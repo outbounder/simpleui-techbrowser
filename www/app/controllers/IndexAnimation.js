@@ -1,4 +1,4 @@
-var IndexAnimation = function() {
+exports = function() {
 	this.animationTimeout = 3*1.618;
 	this.animationTimeoutId = null;
 	this.pendingAnimationFunc = null;
